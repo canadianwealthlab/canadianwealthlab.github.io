@@ -1,0 +1,31 @@
+import Link from "next/link";
+import { ArrowUpRight, Menu } from "lucide-react";
+
+export function SiteHeader() {
+  return (
+    <header className="site-header">
+      <div className="container nav-shell">
+        <Link className="brand" href="/" aria-label="Canadian Wealth Lab home">
+          <span className="brand-mark" aria-hidden="true">CWL</span>
+          <span>Canadian Wealth Lab</span>
+        </Link>
+        <nav className="desktop-nav" aria-label="Primary navigation">
+          <Link href="/calculators">Calculators</Link>
+          <Link href="/articles">Guides</Link>
+          <Link href="/about">About</Link>
+          <Link className="nav-cta" href="/calculators">
+            Start exploring <ArrowUpRight size={15} />
+          </Link>
+        </nav>
+        <details className="mobile-nav">
+          <summary aria-label="Open navigation"><Menu size={24} /></summary>
+          <nav className="mobile-menu" aria-label="Mobile navigation">
+            <Link href="/calculators">Calculators</Link>
+            <Link href="/articles">Guides</Link>
+            <Link href="/about">About</Link>
+          </nav>
+        </details>
+      </div>
+    </header>
+  );
+}
