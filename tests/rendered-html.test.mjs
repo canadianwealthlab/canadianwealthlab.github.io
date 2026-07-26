@@ -33,7 +33,14 @@ test("renders article and calculator routes", async () => {
   ]);
   assert.equal(articleResponse.status, 200);
   assert.equal(calculatorResponse.status, 200);
-  assert.match(await articleResponse.text(), /TFSA vs RRSP: Which One Should I Use/);
+  const articleHtml = await articleResponse.text();
+  assert.match(articleHtml, /TFSA vs RRSP: Which One Should I Use/);
+  assert.match(articleHtml, /COMMUNITY PERSPECTIVES/);
+  assert.match(articleHtml, /anecdotal, may be incomplete or wrong/);
+  assert.match(
+    articleHtml,
+    /reddit\.com\/r\/PersonalFinanceCanada\/comments\/1sqe6dx/,
+  );
   assert.match(await calculatorResponse.text(), /Estimated interest saved/);
 });
 

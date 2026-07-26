@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowRight, CheckCircle2, ExternalLink } from "lucide-react";
 import { ArticleBody } from "@/components/article-body";
+import { CommunityPerspectives } from "@/components/community-perspectives";
 import { calculators } from "@/lib/calculators";
 import {
   articles,
@@ -146,10 +147,16 @@ export function ArticlePage({ article }: { article: Article }) {
                 {section.title}
               </a>
             ))}
+            {article.communityDiscussions.length > 0 && (
+              <a href="#community-perspectives">Community perspectives</a>
+            )}
             <a href="#primary-sources">Primary sources</a>
           </aside>
           <div>
             <ArticleBody sections={article.sections} />
+            <CommunityPerspectives
+              discussions={article.communityDiscussions}
+            />
 
             <section
               className="article-sources"

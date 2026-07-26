@@ -206,6 +206,24 @@ h1, h2, h3 { font-family: var(--font-display), sans-serif; margin: 0; }
 .quick-answer { padding: 28px; border-left: 4px solid var(--coral); background: var(--paper); }
 .quick-answer h2 { font-size: 13px; text-transform: uppercase; letter-spacing: .11em; }
 .quick-answer p:last-child { margin-bottom: 0; }
+.community-perspectives { padding: 44px 0; margin: 0 0 44px; border-bottom: 1px solid var(--line); scroll-margin-top: 105px; }
+.community-heading { display: grid; grid-template-columns: 45px 1fr; align-items: start; gap: 14px; }
+.community-icon { width: 40px; height: 40px; display: grid; place-items: center; border-radius: 50%; background: var(--coral); color: var(--ink); }
+.community-heading h2 { margin-top: 7px; font-size: 31px; line-height: 1.2; letter-spacing: -.04em; }
+.community-intro { margin: 22px 0 0; color: var(--muted); font-size: 14px; line-height: 1.65; }
+.community-list { margin-top: 25px; }
+.community-card { padding: 25px; background: var(--paper); border: 1px solid var(--line); }
+.community-card + .community-card { margin-top: 16px; }
+.community-meta { display: flex; justify-content: space-between; gap: 14px; color: var(--green-2); font-size: 11px; font-weight: 750; letter-spacing: .06em; }
+.community-meta span { display: inline-flex; align-items: center; gap: 7px; }
+.community-card blockquote { margin: 28px 0 18px; font-family: var(--font-display); font-size: 24px; line-height: 1.4; letter-spacing: -.035em; }
+.community-card > p { color: var(--muted); font-size: 14px; line-height: 1.65; }
+.community-card > a { display: flex; justify-content: space-between; align-items: center; gap: 20px; margin-top: 25px; padding-top: 18px; border-top: 1px solid var(--line); }
+.community-card > a span { display: grid; gap: 4px; }
+.community-card > a small { color: var(--muted); font-size: 10px; text-transform: uppercase; letter-spacing: .1em; }
+.community-card > a strong { font-size: 13px; }
+.community-card > a svg { color: var(--green-2); flex: 0 0 auto; }
+.community-note { margin: 14px 0 0; color: #7a837f; font-size: 11px; line-height: 1.55; }
 .article-sources { scroll-margin-top: 105px; }
 .article-sources h2 { margin-top: 8px; font-size: 31px; letter-spacing: -.04em; }
 .article-sources > p { color: var(--muted); line-height: 1.65; }

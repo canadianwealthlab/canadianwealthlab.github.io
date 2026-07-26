@@ -42,6 +42,13 @@ export default function EditorialPolicyPage() {
           ],
         },
         {
+          title: "Community perspectives",
+          paragraphs: [
+            "Selected public discussions may appear beside our analysis to show how Canadians frame a decision in real life. Community material is presented as anecdotal perspective, not factual authority, professional advice, or representative research.",
+            "We use short excerpts or editorial summaries, link directly to the original thread, preserve the surrounding context readers need to evaluate the discussion, and avoid displaying usernames when identification adds no editorial value. Primary sources remain separate and control when a community claim conflicts with authoritative guidance.",
+          ],
+        },
+        {
           title: "Independence and conflicts",
           paragraphs: [
             "Editorial conclusions are not sold to product providers. If Canadian Wealth Lab introduces advertising, affiliate relationships, sponsorships, or other compensation, those relationships will be disclosed clearly and will not determine the conclusion of a guide.",

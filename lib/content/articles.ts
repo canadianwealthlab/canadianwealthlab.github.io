@@ -4,6 +4,10 @@ import veqtVsXeqtSource from "@/content/articles/veqt-vs-xeqt.mdx?raw";
 import retirementSource from "@/content/articles/how-much-to-retire.mdx?raw";
 import rentVsBuySource from "@/content/articles/rent-vs-buy.mdx?raw";
 import { articleSourcesBySlug, type ArticleSource } from "@/lib/content/article-sources";
+import {
+  communityDiscussionsBySlug,
+  type CommunityDiscussion,
+} from "@/lib/content/community-discussions";
 import type { ClusterSlug } from "@/lib/content/clusters";
 
 export type ArticleSection = {
@@ -29,6 +33,7 @@ export type Article = {
   sections: ArticleSection[];
   faqs: { question: string; answer: string }[];
   sources: ArticleSource[];
+  communityDiscussions: CommunityDiscussion[];
 };
 
 const sources = [
@@ -147,6 +152,7 @@ function parseArticle(source: string): Article {
     sections,
     faqs,
     sources: articleSourcesBySlug[slug] || [],
+    communityDiscussions: communityDiscussionsBySlug[slug] || [],
   };
 }
 

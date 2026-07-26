@@ -40,6 +40,12 @@ export default function SourcesStandardsPage() {
           ],
         },
         {
+          title: "Community material",
+          paragraphs: [
+            "Reddit and other public discussions can reveal recurring questions, constraints, and lived experiences. They cannot establish that a claim is accurate or representative. Community excerpts are labelled separately, linked to their original context, and never used as a substitute for government, regulator, or original product documentation.",
+          ],
+        },
+        {
           title: "Time-sensitive information",
           paragraphs: [
             "Tax brackets, contribution limits, public-benefit amounts, mortgage rules, interest rates, and fund characteristics can change. Pages covering these subjects display a review date and direct readers to the authoritative source.",
