@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://canadianwealthlab.ca/sitemap.xml
+Sitemap: https://canadianwealthlab.github.io/sitemap.xml
