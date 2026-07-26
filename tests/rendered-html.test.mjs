@@ -44,6 +44,31 @@ test("renders article and calculator routes", async () => {
   assert.match(await calculatorResponse.text(), /Estimated interest saved/);
 });
 
+test("renders the first ten supporting guides with sources and FAQs", async () => {
+  const guides = [
+    ["/housing/how-much-house-can-i-afford/", /How Much House Can I Afford in Canada/],
+    ["/housing/down-payment-canada/", /Down Payment Requirements in Canada/],
+    ["/investing/tfsa-guide/", /TFSA Guide/],
+    ["/investing/rrsp-guide/", /RRSP Guide/],
+    ["/investing/how-to-start-investing-canada/", /How to Start Investing in Canada/],
+    ["/retirement/retirement-planning-canada/", /Retirement Planning in Canada/],
+    ["/retirement/cpp-guide/", /CPP Guide/],
+    ["/retirement/when-to-take-cpp/", /When Should You Take CPP/],
+    ["/taxes/income-tax-brackets-canada/", /Canadian Income Tax Brackets for 2026/],
+    ["/money-management/emergency-fund-canada/", /Emergency Fund Guide for Canadians/],
+  ];
+
+  for (const [pathname, heading] of guides) {
+    const response = await render(pathname);
+    assert.equal(response.status, 200, pathname);
+    const html = await response.text();
+    assert.match(html, heading);
+    assert.match(html, /Primary sources/);
+    assert.match(html, /FAQ/);
+    assert.match(html, /Reviewed against primary Canadian sources/);
+  }
+});
+
 test("renders cluster and credibility routes", async () => {
   const [clusterResponse, policyResponse, authorResponse] = await Promise.all([
     render("/housing/"),

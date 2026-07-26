@@ -3,6 +3,16 @@ import mortgageOrInvestSource from "@/content/articles/pay-off-mortgage-or-inves
 import veqtVsXeqtSource from "@/content/articles/veqt-vs-xeqt.mdx?raw";
 import retirementSource from "@/content/articles/how-much-to-retire.mdx?raw";
 import rentVsBuySource from "@/content/articles/rent-vs-buy.mdx?raw";
+import howMuchHouseSource from "@/content/articles/how-much-house-can-i-afford.mdx?raw";
+import downPaymentSource from "@/content/articles/down-payment-canada.mdx?raw";
+import tfsaGuideSource from "@/content/articles/tfsa-guide.mdx?raw";
+import rrspGuideSource from "@/content/articles/rrsp-guide.mdx?raw";
+import startInvestingSource from "@/content/articles/how-to-start-investing-canada.mdx?raw";
+import retirementPlanningSource from "@/content/articles/retirement-planning-canada.mdx?raw";
+import cppGuideSource from "@/content/articles/cpp-guide.mdx?raw";
+import whenToTakeCppSource from "@/content/articles/when-to-take-cpp.mdx?raw";
+import incomeTaxBracketsSource from "@/content/articles/income-tax-brackets-canada.mdx?raw";
+import emergencyFundSource from "@/content/articles/emergency-fund-canada.mdx?raw";
 import { articleSourcesBySlug, type ArticleSource } from "@/lib/content/article-sources";
 import {
   communityDiscussionsBySlug,
@@ -42,6 +52,16 @@ const sources = [
   veqtVsXeqtSource,
   retirementSource,
   rentVsBuySource,
+  howMuchHouseSource,
+  downPaymentSource,
+  tfsaGuideSource,
+  rrspGuideSource,
+  startInvestingSource,
+  retirementPlanningSource,
+  cppGuideSource,
+  whenToTakeCppSource,
+  incomeTaxBracketsSource,
+  emergencyFundSource,
 ];
 
 function slugify(value: string) {
