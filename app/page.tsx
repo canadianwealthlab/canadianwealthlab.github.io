@@ -17,7 +17,7 @@ import {
 } from "lucide-react";
 import { HeroMotion, Reveal } from "@/components/motion";
 import { Newsletter } from "@/components/newsletter";
-import { articles } from "@/lib/content/articles";
+import { articles, getArticleUrl } from "@/lib/content/articles";
 import { calculators } from "@/lib/calculators";
 import { JsonLd } from "@/lib/seo/json-ld";
 import { absoluteUrl } from "@/lib/seo/site";
@@ -30,12 +30,12 @@ export const metadata: Metadata = {
 };
 
 const decisions = [
-  { name: "Home ownership", description: "Buy, rent, refinance, or pay it down.", icon: House, href: "/articles/rent-vs-buy" },
-  { name: "Investing", description: "Build a portfolio around your real goals.", icon: ChartNoAxesCombined, href: "/articles/veqt-vs-xeqt" },
-  { name: "Building wealth", description: "Choose the highest-impact next move.", icon: CircleDollarSign, href: "/articles/pay-off-mortgage-or-invest" },
-  { name: "Taxes", description: "Use registered accounts with intention.", icon: ReceiptText, href: "/articles/tfsa-vs-rrsp" },
-  { name: "Retirement", description: "Turn a future goal into a working number.", icon: Palmtree, href: "/articles/how-much-to-retire" },
-  { name: "Major purchases", description: "Pressure-test the full cost first.", icon: Car, href: "/calculators" },
+  { name: "Housing", description: "Buy, rent, refinance, or pay it down.", icon: House, href: "/housing" },
+  { name: "Investing", description: "Build a portfolio around your real goals.", icon: ChartNoAxesCombined, href: "/investing" },
+  { name: "Money management", description: "Strengthen cash flow, savings, and debt decisions.", icon: CircleDollarSign, href: "/money-management" },
+  { name: "Taxes", description: "Understand the mechanics behind the decision.", icon: ReceiptText, href: "/taxes" },
+  { name: "Retirement", description: "Turn a future goal into a working plan.", icon: Palmtree, href: "/retirement" },
+  { name: "Calculators", description: "Pressure-test the numbers before acting.", icon: Car, href: "/calculators" },
 ];
 
 export default function Home() {
@@ -51,6 +51,17 @@ export default function Home() {
           url: absoluteUrl("/"),
           description:
             "Data-driven calculators and guides for Canadians making important money decisions.",
+        }}
+      />
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "Organization",
+          name: "Canadian Wealth Lab",
+          url: absoluteUrl("/"),
+          logo: absoluteUrl("/favicon.svg"),
+          sameAs: ["https://github.com/canadianwealthlab"],
+          publishingPrinciples: absoluteUrl("/about/editorial-policy"),
         }}
       />
 
@@ -185,7 +196,7 @@ export default function Home() {
             <div className="article-grid">
               {featuredArticles.map((article, index) => (
                 <Reveal className="article-card" key={article.slug} delay={index * 0.05}>
-                  <Link href={`/articles/${article.slug}`}>
+                  <Link href={getArticleUrl(article)}>
                     <div className="article-meta">
                       <span>{article.category}</span>
                       <span>{article.readingTime}</span>

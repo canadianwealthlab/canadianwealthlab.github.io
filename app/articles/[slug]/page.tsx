@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArticleBody } from "@/components/article-body";
-import { articles, getArticle } from "@/lib/content/articles";
-import { JsonLd } from "@/lib/seo/json-ld";
-import { absoluteUrl } from "@/lib/seo/site";
+import { articles, getArticle, getArticleUrl } from "@/lib/content/articles";
 
 export const dynamicParams = false;
 
@@ -19,18 +17,12 @@ export async function generateMetadata({
   const { slug } = await params;
   const article = getArticle(slug);
   if (!article) return {};
+  const destination = getArticleUrl(article);
   return {
-    title: article.title,
-    description: article.description,
-    alternates: { canonical: `/articles/${article.slug}` },
-    openGraph: {
-      type: "article",
-      title: article.title,
-      description: article.description,
-      url: `/articles/${article.slug}`,
-      publishedTime: article.date,
-      authors: [article.author],
-    },
+    title: `This guide has moved: ${article.title}`,
+    description: `Continue to the current version of ${article.title}.`,
+    alternates: { canonical: destination },
+    robots: { index: false, follow: true },
   };
 }
 
@@ -42,81 +34,20 @@ export default async function ArticlePage({
   const { slug } = await params;
   const article = getArticle(slug);
   if (!article) notFound();
-
-  const articleUrl = absoluteUrl(`/articles/${article.slug}`);
-  const date = new Intl.DateTimeFormat("en-CA", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-    timeZone: "UTC",
-  }).format(new Date(`${article.date}T00:00:00Z`));
+  const destination = getArticleUrl(article);
 
   return (
-    <main className="article-shell">
-      <JsonLd
-        data={{
-          "@context": "https://schema.org",
-          "@type": "Article",
-          headline: article.title,
-          description: article.description,
-          datePublished: article.date,
-          dateModified: article.date,
-          author: { "@type": "Organization", name: article.author },
-          publisher: { "@type": "Organization", name: "Canadian Wealth Lab" },
-          mainEntityOfPage: articleUrl,
-        }}
-      />
-      <JsonLd
-        data={{
-          "@context": "https://schema.org",
-          "@type": "FAQPage",
-          mainEntity: article.faqs.map((faq) => ({
-            "@type": "Question",
-            name: faq.question,
-            acceptedAnswer: { "@type": "Answer", text: faq.answer },
-          })),
-        }}
-      />
-      <JsonLd
-        data={{
-          "@context": "https://schema.org",
-          "@type": "BreadcrumbList",
-          itemListElement: [
-            { "@type": "ListItem", position: 1, name: "Home", item: absoluteUrl("/") },
-            { "@type": "ListItem", position: 2, name: "Guides", item: absoluteUrl("/articles") },
-            { "@type": "ListItem", position: 3, name: article.title, item: articleUrl },
-          ],
-        }}
-      />
-
+    <main className="redirect-shell">
+      <meta httpEquiv="refresh" content={`0;url=${destination}`} />
       <div className="container">
-        <header className="article-header">
-          <div className="article-meta">
-            <span>{article.category}</span>
-            <span>{article.readingTime}</span>
-          </div>
+        <div className="redirect-card">
+          <span className="kicker">GUIDE MOVED</span>
           <h1>{article.title}</h1>
-          <p className="dek">{article.description}</p>
-          <div className="article-byline">
-            <span>By {article.author}</span>
-            <span>{date}</span>
-          </div>
-        </header>
-
-        <div className="article-layout">
-          <aside className="article-toc" aria-label="On this page">
-            <span>ON THIS PAGE</span>
-            {article.sections.map((section) => (
-              <a href={`#${section.id}`} key={section.id}>{section.title}</a>
-            ))}
-          </aside>
-          <ArticleBody sections={article.sections} />
+          <p>This guide now lives in our {article.cluster} research cluster.</p>
+          <Link className="button button-primary" href={destination}>
+            Continue to the guide
+          </Link>
         </div>
-        <p className="disclaimer">
-          This article is educational and general in nature. It does not account
-          for your complete financial situation and is not personalized
-          financial, tax, legal, or investment advice.
-        </p>
       </div>
     </main>
   );

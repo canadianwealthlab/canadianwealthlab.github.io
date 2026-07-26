@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ChevronRight } from "lucide-react";
+import { ArrowRight, CheckCircle2, ChevronRight } from "lucide-react";
 import { notFound } from "next/navigation";
 import { CalculatorExperience } from "@/components/calculator-experience";
 import { calculators, getCalculator } from "@/lib/calculators";
@@ -55,6 +55,18 @@ export default async function CalculatorPage({
           ],
         }}
       />
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "WebApplication",
+          name: calculator.title,
+          description: calculator.description,
+          url: absoluteUrl(`/calculators/${calculator.slug}`),
+          applicationCategory: "FinanceApplication",
+          operatingSystem: "Any",
+          offers: { "@type": "Offer", price: "0", priceCurrency: "CAD" },
+        }}
+      />
       <div className="container">
         <div className="breadcrumb">
           <Link href="/">Home</Link><ChevronRight size={13} />
@@ -69,10 +81,25 @@ export default async function CalculatorPage({
           <p>{calculator.description}</p>
         </header>
         <CalculatorExperience calculator={calculator} />
-        <p className="calculator-note">
-          Educational estimate only. Results are simplified, may not reflect
-          lender or tax rules, and are not personalized financial advice.
-        </p>
+        <div className="calculator-standards-note">
+          <CheckCircle2 size={19} aria-hidden="true" />
+          <div>
+            <p>
+              Educational estimate only. Results are simplified, may not reflect
+              every lender, tax, benefit, or contractual rule, and are not
+              personalized financial advice.
+            </p>
+            <span>
+              <Link href="/about/methodology">
+                Review our calculator methodology <ArrowRight size={14} />
+              </Link>
+              <Link href={`/${calculator.cluster}`}>
+                Explore {calculator.category.toLowerCase()} guides{" "}
+                <ArrowRight size={14} />
+              </Link>
+            </span>
+          </div>
+        </div>
       </div>
     </main>
   );

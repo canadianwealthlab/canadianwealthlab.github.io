@@ -11,6 +11,16 @@ export function SiteHeader() {
         </Link>
         <nav className="desktop-nav" aria-label="Primary navigation">
           <Link href="/calculators">Calculators</Link>
+          <details className="topics-nav">
+            <summary>Topics</summary>
+            <div className="topics-menu">
+              <Link href="/housing">Housing</Link>
+              <Link href="/investing">Investing</Link>
+              <Link href="/retirement">Retirement</Link>
+              <Link href="/taxes">Taxes</Link>
+              <Link href="/money-management">Money management</Link>
+            </div>
+          </details>
           <Link href="/articles">Guides</Link>
           <Link href="/about">About</Link>
           <Link className="nav-cta" href="/calculators">
@@ -22,6 +32,11 @@ export function SiteHeader() {
           <nav className="mobile-menu" aria-label="Mobile navigation">
             <Link href="/calculators">Calculators</Link>
             <Link href="/articles">Guides</Link>
+            <Link href="/housing">Housing</Link>
+            <Link href="/investing">Investing</Link>
+            <Link href="/retirement">Retirement</Link>
+            <Link href="/taxes">Taxes</Link>
+            <Link href="/money-management">Money management</Link>
             <Link href="/about">About</Link>
           </nav>
         </details>

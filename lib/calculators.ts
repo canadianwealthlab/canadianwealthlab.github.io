@@ -1,9 +1,12 @@
+import type { ClusterSlug } from "@/lib/content/clusters";
+
 export type CalculatorDefinition = {
   slug: "mortgage-prepayment" | "rent-vs-buy" | "tfsa-vs-rrsp" | "fire";
   title: string;
   shortDescription: string;
   description: string;
   category: string;
+  cluster: ClusterSlug;
 };
 
 export const calculators: CalculatorDefinition[] = [
@@ -14,6 +17,7 @@ export const calculators: CalculatorDefinition[] = [
     description:
       "Estimate the interest and time you could save by adding a regular extra payment to your Canadian mortgage.",
     category: "Home ownership",
+    cluster: "housing",
   },
   {
     slug: "rent-vs-buy",
@@ -22,6 +26,7 @@ export const calculators: CalculatorDefinition[] = [
     description:
       "Compare five- and ten-year outcomes using a transparent model for home equity, ownership costs, and invested savings.",
     category: "Home ownership",
+    cluster: "housing",
   },
   {
     slug: "tfsa-vs-rrsp",
@@ -30,6 +35,7 @@ export const calculators: CalculatorDefinition[] = [
     description:
       "Model the long-term impact of a TFSA contribution versus an RRSP contribution and reinvested tax refund.",
     category: "Taxes & investing",
+    cluster: "investing",
   },
   {
     slug: "fire",
@@ -38,6 +44,7 @@ export const calculators: CalculatorDefinition[] = [
     description:
       "Turn your investments, savings, spending, and expected return into an estimated financial independence timeline.",
     category: "Retirement",
+    cluster: "retirement",
   },
 ];
 

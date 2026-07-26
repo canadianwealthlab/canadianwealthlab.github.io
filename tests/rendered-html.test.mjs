@@ -28,11 +28,34 @@ test("renders the Canadian Wealth Lab homepage", async () => {
 
 test("renders article and calculator routes", async () => {
   const [articleResponse, calculatorResponse] = await Promise.all([
-    render("/articles/tfsa-vs-rrsp/"),
+    render("/investing/tfsa-vs-rrsp/"),
     render("/calculators/mortgage-prepayment/"),
   ]);
   assert.equal(articleResponse.status, 200);
   assert.equal(calculatorResponse.status, 200);
   assert.match(await articleResponse.text(), /TFSA vs RRSP: Which One Should I Use/);
   assert.match(await calculatorResponse.text(), /Estimated interest saved/);
+});
+
+test("renders cluster and credibility routes", async () => {
+  const [clusterResponse, policyResponse, authorResponse] = await Promise.all([
+    render("/housing/"),
+    render("/about/editorial-policy/"),
+    render("/authors/canadian-wealth-lab/"),
+  ]);
+  assert.equal(clusterResponse.status, 200);
+  assert.equal(policyResponse.status, 200);
+  assert.equal(authorResponse.status, 200);
+  assert.match(await clusterResponse.text(), /Housing guides/);
+  assert.match(await policyResponse.text(), /Editorial policy/);
+  assert.match(await authorResponse.text(), /does not claim a professional designation/);
+});
+
+test("keeps legacy article URLs discoverable but non-canonical", async () => {
+  const response = await render("/articles/tfsa-vs-rrsp/");
+  assert.equal(response.status, 200);
+  const html = await response.text();
+  assert.match(html, /GUIDE MOVED/);
+  assert.match(html, /investing\/tfsa-vs-rrsp/);
+  assert.match(html, /noindex/i);
 });

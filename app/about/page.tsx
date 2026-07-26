@@ -61,6 +61,32 @@ export default function AboutPage() {
             </div>
           ))}
         </div>
+        <div className="container standards-links">
+          <div className="section-heading split-heading">
+            <div>
+              <span className="kicker">PUBLIC STANDARDS</span>
+              <h2>See how the work is produced.</h2>
+            </div>
+            <p>
+              Our policies explain how sources, assumptions, reviews,
+              corrections, and calculator limitations are handled.
+            </p>
+          </div>
+          <div className="standards-link-grid">
+            {[
+              ["Editorial policy", "/about/editorial-policy"],
+              ["Calculator methodology", "/about/methodology"],
+              ["Sources and standards", "/about/sources-and-standards"],
+              ["Corrections policy", "/about/corrections-policy"],
+              ["Editorial team", "/authors/canadian-wealth-lab"],
+            ].map(([label, href]) => (
+              <Link href={href} key={href}>
+                <span>{label}</span>
+                <ArrowRight size={16} />
+              </Link>
+            ))}
+          </div>
+        </div>
       </section>
     </main>
   );

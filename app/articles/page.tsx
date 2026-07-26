@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { articles } from "@/lib/content/articles";
+import { articles, getArticleUrl } from "@/lib/content/articles";
+import { clusters } from "@/lib/content/clusters";
 
 export const metadata: Metadata = {
   title: "Canadian personal finance guides",
@@ -23,11 +24,26 @@ export default function ArticlesPage() {
           </p>
         </div>
       </section>
+      <section className="cluster-directory" aria-labelledby="cluster-directory-title">
+        <div className="container">
+          <span className="kicker">EXPLORE BY TOPIC</span>
+          <h2 id="cluster-directory-title">Canadian finance research clusters</h2>
+          <div className="cluster-directory-grid">
+            {clusters.map((cluster) => (
+              <Link href={`/${cluster.slug}`} key={cluster.slug}>
+                <strong>{cluster.name}</strong>
+                <span>{cluster.description}</span>
+                <small>Explore topic <ArrowRight size={14} /></small>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
       <section className="listing-section">
         <div className="container listing-grid">
           {articles.map((article) => (
             <article className="listing-card" key={article.slug}>
-              <Link href={`/articles/${article.slug}`}>
+              <Link href={getArticleUrl(article)}>
                 <div className="article-meta">
                   <span>{article.category}</span>
                   <span>{article.readingTime}</span>

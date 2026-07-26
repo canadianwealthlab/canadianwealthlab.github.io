@@ -25,7 +25,12 @@ export const metadata: Metadata = {
   description:
     "Data-driven calculators and guides that help Canadians make smarter financial decisions.",
   applicationName: "Canadian Wealth Lab",
-  authors: [{ name: "Canadian Wealth Lab" }],
+  authors: [
+    {
+      name: "Canadian Wealth Lab Editorial Team",
+      url: "/authors/canadian-wealth-lab",
+    },
+  ],
   creator: "Canadian Wealth Lab",
   publisher: "Canadian Wealth Lab",
   alternates: { canonical: "/" },
