@@ -57,10 +57,10 @@ test("renders the Canadian Wealth Lab homepage", async () => {
     html,
     /<script[^>]+src="https:\/\/www\.googletagmanager\.com\/gtag\/js\?id=G-PDECYVLZLB"/,
   );
-  assert.match(html, /gtag\('consent', 'default'/);
-  assert.match(html, /analytics_storage: 'denied'/);
+  assert.doesNotMatch(html, /gtag\('consent'|analytics_storage/);
   assert.match(html, /gtag\('config', 'G-PDECYVLZLB'/);
   assert.match(html, /send_page_view: false/);
+  assert.doesNotMatch(html, /Analytics settings|Allow analytics|>Decline</);
   assert.equal(
     html.match(
       /<script[^>]+src="https:\/\/www\.googletagmanager\.com\/gtag\/js\?id=G-PDECYVLZLB"[^>]*>/g,

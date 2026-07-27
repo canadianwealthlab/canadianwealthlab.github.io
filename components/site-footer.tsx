@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { AnalyticsSettingsButton } from "@/components/analytics";
 import { LogoMark } from "@/components/logo-mark";
 
 export function SiteFooter() {
@@ -37,7 +36,6 @@ export function SiteFooter() {
             <strong>Information</strong>
             <Link href="/authors/canadian-wealth-lab">Editorial team</Link>
             <Link href="/privacy">Privacy</Link>
-            <AnalyticsSettingsButton />
             <Link href="/terms">Terms</Link>
             <Link href="/disclaimer">Disclaimer</Link>
             <Link href="/contact">Contact</Link>

@@ -1,7 +1,6 @@
 "use client";
 
 const PRODUCTION_HOST = "canadianwealthlab.github.io";
-const CONSENT_KEY = "cwl-analytics-consent";
 
 type GuidedEventName =
   | "guided_experience_started"
@@ -25,8 +24,7 @@ export function trackGuidedEvent(
   if (
     typeof window === "undefined" ||
     window.location.hostname !== PRODUCTION_HOST ||
-    window.location.protocol !== "https:" ||
-    window.localStorage.getItem(CONSENT_KEY) !== "granted"
+    window.location.protocol !== "https:"
   ) {
     return;
   }

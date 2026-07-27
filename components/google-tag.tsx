@@ -1,15 +1,8 @@
 const MEASUREMENT_ID = "G-PDECYVLZLB";
 
-const consentBootstrap = `
+const tagBootstrap = `
 window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
-gtag('consent', 'default', {
-  analytics_storage: 'denied',
-  ad_storage: 'denied',
-  ad_user_data: 'denied',
-  ad_personalization: 'denied',
-  wait_for_update: 500
-});
 gtag('set', 'ads_data_redaction', true);
 `;
 
@@ -29,8 +22,8 @@ export function GoogleTag() {
   return (
     <>
       <script
-        dangerouslySetInnerHTML={{ __html: consentBootstrap }}
-        id="cwl-ga-consent-default"
+        dangerouslySetInnerHTML={{ __html: tagBootstrap }}
+        id="cwl-ga-bootstrap"
       />
       <script
         async

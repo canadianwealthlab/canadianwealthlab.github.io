@@ -26,14 +26,14 @@ export default function PrivacyPage() {
           title: "Get Guided responses",
           paragraphs: [
             "Responses in Get Guided are processed in memory in your browser tab. They are not transmitted, stored, or linked to an account, and they disappear when you reload, restart, or leave the experience. The experience does not request names, email addresses, account numbers, exact income sources, or free-text financial details.",
-            "If analytics is allowed, events may record that a guided journey started, a non-sensitive step was completed, results were viewed, or a recommended resource was opened. Event data can include an internal journey, step, or content-type label. It never includes response values or the text of a response.",
+            "Analytics events may record that a guided journey started, a non-sensitive step was completed, results were viewed, or a recommended resource was opened. Event data can include an internal journey, step, or content-type label. It never includes response values or the text of a response.",
           ],
         },
         {
           title: "Analytics",
           paragraphs: [
-            "On the production website, the Google Analytics 4 tag loads with analytics storage denied by default. A standard page view is sent only after you choose Allow analytics. If you decline, analytics storage remains denied and Canadian Wealth Lab does not send its page-view or guided-interaction events. Your preference is stored in your browser and can be changed using Analytics settings in the footer.",
-            "When allowed, Canadian Wealth Lab sends standard page-view information using a page path without URL query parameters and the limited guided interaction events described above. Calculator values, guided responses, form entries, filenames, product or feed data, email addresses, user IDs, and custom financial data are not sent to Google Analytics. Advertising storage, advertising user data, ad personalization, and Google signals remain disabled.",
+            "On the production website, Google Analytics 4 runs by default to measure standard page views and the limited guided-interaction events described above. Google Analytics may set first-party analytics cookies and receives standard browser, device, network, and page information when these events are sent.",
+            "Canadian Wealth Lab sends page paths without URL query parameters. Calculator values, guided responses, form entries, filenames, product or feed data, email addresses, user IDs, and custom financial data are not sent to Google Analytics. Advertising signals and ad personalization remain disabled. Visitors can block or delete analytics cookies using their browser or privacy tools.",
           ],
         },
         {
