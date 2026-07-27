@@ -29,13 +29,13 @@ export default function MethodologyPage() {
             "Material assumptions are editable or disclosed beside the result.",
             "Dollar amounts are rounded for decision support and may differ from lender, tax software, or advisor calculations.",
             "Comparisons use the same time period and internally consistent assumptions wherever possible.",
-            "Uncertain inputs such as investment returns and home appreciation are scenarios—not forecasts.",
+            "Uncertain inputs such as investment returns and home appreciation are scenarios, not forecasts.",
           ],
         },
         {
           title: "Testing",
           paragraphs: [
-            "Formula changes are checked with independent examples and regression tests. Boundary conditions—including zero values, short periods, and unusually high inputs—are reviewed for mathematical and interface failures.",
+            "Formula changes are checked with independent examples and regression tests. Boundary conditions, including zero values, short periods, and unusually high inputs, are reviewed for mathematical and interface failures.",
             "Canadian mortgage calculations may differ slightly from lender disclosures because payment timing, compounding conventions, fees, insurance, and contractual terms can vary. Readers should treat their lender’s contract and disclosure as authoritative.",
           ],
         },

@@ -132,7 +132,7 @@ export default function Home() {
               </div>
               <p>
                 Practical frameworks for the choices that shape your financial
-                life—not market noise or hot takes.
+                life, not market noise or hot takes.
               </p>
             </Reveal>
             <div className="decision-grid">
@@ -227,7 +227,7 @@ export default function Home() {
                 { icon: Compass, title: "Independent analysis", copy: "No product sales quotas. No manufactured urgency." },
                 { icon: Landmark, title: "Canadian by design", copy: "Accounts, taxes, housing, and terminology that fit this market." },
                 { icon: Calculator, title: "Transparent models", copy: "Assumptions are visible, editable, and explained in plain language." },
-                { icon: Sparkles, title: "Practical decision support", copy: "A clearer framework—not a prescriptive financial plan." },
+                { icon: Sparkles, title: "Practical decision support", copy: "A clearer framework, not a prescriptive financial plan." },
               ].map(({ icon: Icon, title, copy }, index) => (
                 <Reveal className="principle" key={title} delay={index * 0.04}>
                   <Icon size={21} />

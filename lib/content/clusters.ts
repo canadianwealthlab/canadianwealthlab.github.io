@@ -56,7 +56,7 @@ export const clusters: Cluster[] = [
   {
     slug: "investing",
     name: "Investing",
-    title: "Build an investment plan around the decision—not the product",
+    title: "Build an investment plan around the decision, not the product",
     description:
       "Independent Canadian investing guides covering registered accounts, diversified ETFs, portfolio design, fees, and investor behaviour.",
     introduction:

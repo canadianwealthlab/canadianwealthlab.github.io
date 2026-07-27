@@ -29,7 +29,7 @@ export const communityDiscussionsBySlug: Record<
       date: "2026-06-12",
       url: "https://www.reddit.com/r/PersonalFinanceCanada/comments/1u48pou/should_i_increase_my_mortgage_payments_by_20_or/",
       excerpt:
-        "“We’ve decided to split our extra income—extra in TFSA and extra payments.”",
+        "“We’ve decided to split our extra income: extra in TFSA and extra payments.”",
       takeaway:
         "The discussion captures the practical middle ground between a guaranteed mortgage return and uncertain investment growth. Several participants also connect the choice to risk tolerance and retirement timing.",
     },
@@ -77,7 +77,7 @@ export const communityDiscussionsBySlug: Record<
       url: "https://www.reddit.com/r/PersonalFinanceCanada/comments/1uxorkw/buying_a_house_vs_continuing_to_rent_and_save/",
       excerpt: "“Do you like where you live now?”",
       takeaway:
-        "The question is a useful counterweight to lender math. Affordability includes stability, location, space, mobility, maintenance, and the value of keeping savings invested—not only the approved payment.",
+        "The question is a useful counterweight to lender math. Affordability includes stability, location, space, mobility, maintenance, and the value of keeping savings invested, not only the approved payment.",
     },
   ],
   "down-payment-canada": [

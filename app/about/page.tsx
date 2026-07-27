@@ -25,14 +25,14 @@ export default function AboutPage() {
           <h1>Financial clarity is a public good.</h1>
           <p>
             Canadian Wealth Lab exists to make consequential money decisions
-            easier to understand—without acting like a bank, an advisor, or a market pundit.
+            easier to understand without acting like a bank, an advisor, or a market pundit.
           </p>
         </div>
       </section>
       <section className="section">
         <div className="container about-grid">
           <p className="about-statement">
-            We believe the best financial content helps people reason—not simply
+            We believe the best financial content helps people reason, not simply
             follow a confident answer.
           </p>
           <div className="about-copy">

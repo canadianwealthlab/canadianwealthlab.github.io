@@ -14,7 +14,7 @@ export default function DisclaimerPage() {
       parent={null}
       kicker="IMPORTANT INFORMATION"
       title="Financial information disclaimer"
-      description="Canadian Wealth Lab provides education and decision support—not individualized professional advice."
+      description="Canadian Wealth Lab provides education and decision support, not individualized professional advice."
       sections={[
         {
           title: "Not personalized advice",

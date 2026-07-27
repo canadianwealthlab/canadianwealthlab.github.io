@@ -43,7 +43,7 @@ const fieldSets: Record<CalculatorDefinition["slug"], FieldDefinition[]> = {
 };
 
 function money(value: number) {
-  if (!Number.isFinite(value)) return "—";
+  if (!Number.isFinite(value)) return "N/A";
   return new Intl.NumberFormat("en-CA", {
     style: "currency",
     currency: "CAD",
@@ -126,10 +126,10 @@ function rentVsBuyResults(values: Record<string, number>) {
     primaryLabel: winner,
     primary: money(Math.abs(ten.difference)),
     items: [
-      { label: "Buy net worth — year 5", value: money(five.ownerNetWorth) },
-      { label: "Rent net worth — year 5", value: money(five.renterPortfolio) },
-      { label: "Buy net worth — year 10", value: money(ten.ownerNetWorth) },
-      { label: "Rent net worth — year 10", value: money(ten.renterPortfolio) },
+      { label: "Buy net worth: year 5", value: money(five.ownerNetWorth) },
+      { label: "Rent net worth: year 5", value: money(five.renterPortfolio) },
+      { label: "Buy net worth: year 10", value: money(ten.ownerNetWorth) },
+      { label: "Rent net worth: year 10", value: money(ten.renterPortfolio) },
     ],
     assumption: "Assumes 25-year amortization, 2% annual home appreciation and rent growth, 1.7% yearly tax and maintenance, 3% buying costs, and 5% selling costs.",
   };

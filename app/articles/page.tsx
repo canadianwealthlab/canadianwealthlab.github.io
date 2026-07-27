@@ -7,7 +7,7 @@ import { clusters } from "@/lib/content/clusters";
 export const metadata: Metadata = {
   title: "Canadian personal finance guides",
   description:
-    "Practical, balanced guides to the financial decisions Canadians face—from registered accounts to housing and retirement.",
+    "Practical, balanced guides to the financial decisions Canadians face, from registered accounts to housing and retirement.",
   alternates: { canonical: "/articles" },
 };
 
@@ -20,7 +20,7 @@ export default function ArticlesPage() {
           <h1>Clear analysis. Better decisions.</h1>
           <p>
             Research-led explanations of the choices that shape Canadian
-            households—without predictions, product pushing, or unnecessary jargon.
+            households, without predictions, product pushing, or unnecessary jargon.
           </p>
         </div>
       </section>

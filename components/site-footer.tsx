@@ -13,7 +13,7 @@ export function SiteFooter() {
             </Link>
             <p>
               Independent calculators and guides for better Canadian money
-              decisions. Information only—not individualized financial advice.
+              decisions. Information only. Not individualized financial advice.
             </p>
           </div>
           <div className="footer-column">
@@ -44,7 +44,7 @@ export function SiteFooter() {
         <div className="footer-bottom">
           <span>© {new Date().getFullYear()} Canadian Wealth Lab</span>
           <span>
-            <Link href="/disclaimer">Information only—not individualized advice.</Link>
+            <Link href="/disclaimer">Information only. Not individualized advice.</Link>
           </span>
         </div>
       </div>

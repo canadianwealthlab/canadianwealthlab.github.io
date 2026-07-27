@@ -1,7 +1,31 @@
 import assert from "node:assert/strict";
+import { readdir, readFile } from "node:fs/promises";
+import { extname, join } from "node:path";
+import { fileURLToPath } from "node:url";
 import test from "node:test";
 
 const root = new URL("../dist/server/index.js", import.meta.url);
+const projectRoot = new URL("../", import.meta.url);
+
+async function textFiles(directory) {
+  const entries = await readdir(directory, { withFileTypes: true });
+  const files = [];
+
+  for (const entry of entries) {
+    const path = join(directory, entry.name);
+    if (entry.isDirectory()) {
+      files.push(...(await textFiles(path)));
+    } else if (
+      [".css", ".html", ".mdx", ".svg", ".ts", ".tsx", ".txt", ".xml"].includes(
+        extname(entry.name),
+      )
+    ) {
+      files.push(path);
+    }
+  }
+
+  return files;
+}
 
 async function render(pathname = "/") {
   const workerUrl = new URL(root);
@@ -91,4 +115,21 @@ test("keeps legacy article URLs discoverable but non-canonical", async () => {
   assert.match(html, /GUIDE MOVED/);
   assert.match(html, /investing\/tfsa-vs-rrsp/);
   assert.match(html, /noindex/i);
+});
+
+test("does not use em dash punctuation in site source", async () => {
+  const forbiddenPunctuation = String.fromCodePoint(0x2014);
+  const sourceRoots = ["app", "components", "content", "lib", "public"];
+
+  for (const sourceRoot of sourceRoots) {
+    const directory = fileURLToPath(new URL(`${sourceRoot}/`, projectRoot));
+    for (const file of await textFiles(directory)) {
+      const source = await readFile(file, "utf8");
+      assert.equal(
+        source.includes(forbiddenPunctuation),
+        false,
+        `${file} contains forbidden punctuation`,
+      );
+    }
+  }
 });
