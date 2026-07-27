@@ -73,6 +73,25 @@ test("renders article and calculator routes", async () => {
   assert.match(await calculatorResponse.text(), /Estimated interest saved/);
 });
 
+test("renders the guided experience and preserves the original discovery paths", async () => {
+  const [guidedResponse, homeResponse] = await Promise.all([
+    render("/guided/"),
+    render("/"),
+  ]);
+  assert.equal(guidedResponse.status, 200);
+  const guidedHtml = await guidedResponse.text();
+  assert.match(guidedHtml, /A clearer path through your next money decision/);
+  assert.match(guidedHtml, /What should my next dollar do/);
+  assert.match(guidedHtml, /Which registered account should I learn about first/);
+  assert.match(guidedHtml, /No answers saved/);
+  assert.doesNotMatch(guidedHtml, /googletagmanager|G-PDECYVLZLB/);
+
+  const homeHtml = await homeResponse.text();
+  assert.match(homeHtml, /Not sure where to start/);
+  assert.match(homeHtml, /Explore calculators/);
+  assert.match(homeHtml, /Read financial guides/);
+});
+
 test("renders the first ten supporting guides with sources and FAQs", async () => {
   const guides = [
     ["/housing/how-much-house-can-i-afford/", /How Much House Can I Afford in Canada/],
@@ -143,4 +162,12 @@ test("replaces the calculator zero fallback with the next typed value", () => {
   assert.equal(calculatorDraftOnBlur(""), "0");
   assert.equal(calculatorNumberFromDraft("5"), 5);
   assert.equal(calculatorDraftOnBlur("5"), "5");
+});
+
+test("documents private guided processing and limited analytics", async () => {
+  const response = await render("/privacy/");
+  assert.equal(response.status, 200);
+  const html = await response.text();
+  assert.match(html, /Responses in Get Guided are processed in memory in your browser tab/);
+  assert.match(html, /never includes response values/);
 });

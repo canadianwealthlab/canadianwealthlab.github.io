@@ -123,6 +123,25 @@ export default function Home() {
           </div>
         </section>
 
+        <section className="home-guided-band" aria-labelledby="home-guided-title">
+          <div className="container home-guided-grid">
+            <span className="home-guided-icon" aria-hidden="true">
+              <Compass size={23} />
+            </span>
+            <div>
+              <span className="kicker">NEW: GET GUIDED</span>
+              <h2 id="home-guided-title">Not sure where to start?</h2>
+              <p>
+                Answer a few focused questions and get an educational decision
+                map with tradeoffs, next steps, and sources you can inspect.
+              </p>
+            </div>
+            <Link className="button button-primary" href="/guided">
+              Choose a guided path <ArrowRight size={17} />
+            </Link>
+          </div>
+        </section>
+
         <section className="section decision-section">
           <div className="container">
             <Reveal className="section-heading split-heading">

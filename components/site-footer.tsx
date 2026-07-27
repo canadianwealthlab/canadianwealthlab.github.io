@@ -1,6 +1,6 @@
-import Image from "next/image";
 import Link from "next/link";
 import { AnalyticsSettingsButton } from "@/components/analytics";
+import { LogoMark } from "@/components/logo-mark";
 
 export function SiteFooter() {
   return (
@@ -9,13 +9,7 @@ export function SiteFooter() {
         <div className="footer-grid">
           <div className="footer-brand">
             <Link className="brand" href="/">
-              <Image
-                className="brand-mark"
-                src="/logo-north-star.svg"
-                alt=""
-                width={44}
-                height={44}
-              />
+              <LogoMark />
               <span>Canadian Wealth Lab</span>
             </Link>
             <p>
@@ -25,6 +19,7 @@ export function SiteFooter() {
           </div>
           <div className="footer-column">
             <strong>Explore</strong>
+            <Link href="/guided">Get Guided</Link>
             <Link href="/calculators">Calculators</Link>
             <Link href="/articles">Financial guides</Link>
             <Link href="/housing">Housing</Link>

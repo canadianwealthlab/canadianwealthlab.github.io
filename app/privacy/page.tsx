@@ -23,6 +23,13 @@ export default function PrivacyPage() {
           ],
         },
         {
+          title: "Get Guided responses",
+          paragraphs: [
+            "Responses in Get Guided are processed in memory in your browser tab. They are not transmitted, stored, or linked to an account, and they disappear when you reload, restart, or leave the experience. The experience does not request names, email addresses, account numbers, exact income sources, or free-text financial details.",
+            "If analytics is allowed, events may record that a guided journey started, a non-sensitive step was completed, results were viewed, or a recommended resource was opened. Event data can include an internal journey, step, or content-type label. It never includes response values or the text of a response.",
+          ],
+        },
+        {
           title: "Newsletter form",
           paragraphs: [
             "The current newsletter form is a demonstration interface. It does not transmit or store the email address entered. This policy will be updated before an email subscription service is activated.",
@@ -32,7 +39,7 @@ export default function PrivacyPage() {
           title: "Analytics",
           paragraphs: [
             "On the production website, Google Analytics 4 loads only after you choose Allow analytics. If you decline, the Google tag is not loaded and no analytics request is sent. Your preference is stored in your browser and can be changed using Analytics settings in the footer.",
-            "When allowed, Canadian Wealth Lab sends standard page-view information using a page path without URL query parameters. Calculator values, form entries, filenames, product or feed data, email addresses, user IDs, and custom financial data are not sent to Google Analytics. Advertising storage, advertising user data, ad personalization, and Google signals remain disabled.",
+            "When allowed, Canadian Wealth Lab sends standard page-view information using a page path without URL query parameters and the limited guided interaction events described above. Calculator values, guided responses, form entries, filenames, product or feed data, email addresses, user IDs, and custom financial data are not sent to Google Analytics. Advertising storage, advertising user data, ad personalization, and Google signals remain disabled.",
           ],
         },
         {
@@ -44,7 +51,7 @@ export default function PrivacyPage() {
         {
           title: "Policy changes",
           paragraphs: [
-            "This policy will be updated before Canadian Wealth Lab introduces accounts, saved calculations, contact forms, active email collection, or other features that materially change personal-information handling.",
+            "This policy will be updated before Canadian Wealth Lab introduces accounts, saved calculations or guided results, contact forms, active email collection, or other features that materially change personal-information handling.",
           ],
         },
       ]}

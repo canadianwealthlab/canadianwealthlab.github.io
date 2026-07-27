@@ -26,7 +26,7 @@ export default function DisclaimerPage() {
         {
           title: "Models are estimates",
           paragraphs: [
-            "Results depend on the values and assumptions entered. Returns, inflation, home prices, interest rates, taxes, costs, and personal circumstances may differ materially from the scenarios shown. No result is a promise, guarantee, quote, or forecast.",
+            "Calculator and Get Guided results depend on the limited values and assumptions entered. Returns, inflation, home prices, interest rates, taxes, costs, eligibility, and personal circumstances may differ materially from the scenarios shown. No result is a promise, guarantee, quote, approval, recommendation, or forecast.",
           ],
         },
         {
