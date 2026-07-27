@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { AnalyticsSettingsButton } from "@/components/analytics";
 
 export function SiteFooter() {
   return (
@@ -34,6 +35,7 @@ export function SiteFooter() {
             <strong>Information</strong>
             <Link href="/authors/canadian-wealth-lab">Editorial team</Link>
             <Link href="/privacy">Privacy</Link>
+            <AnalyticsSettingsButton />
             <Link href="/terms">Terms</Link>
             <Link href="/disclaimer">Disclaimer</Link>
             <Link href="/contact">Contact</Link>

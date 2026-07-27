@@ -31,7 +31,8 @@ export default function PrivacyPage() {
         {
           title: "Analytics",
           paragraphs: [
-            "The site can load Google Analytics only when a measurement identifier is configured by the operator. If enabled, Google may process technical and usage information such as device, browser, approximate location, pages viewed, and interactions. IP anonymization is requested in the site configuration, but Google’s own terms and privacy practices govern its processing.",
+            "On the production website, Google Analytics 4 loads only after you choose Allow analytics. If you decline, the Google tag is not loaded and no analytics request is sent. Your preference is stored in your browser and can be changed using Analytics settings in the footer.",
+            "When allowed, Canadian Wealth Lab sends standard page-view information using a page path without URL query parameters. Calculator values, form entries, filenames, product or feed data, email addresses, user IDs, and custom financial data are not sent to Google Analytics. Advertising storage, advertising user data, ad personalization, and Google signals remain disabled.",
           ],
         },
         {
