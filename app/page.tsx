@@ -16,7 +16,6 @@ import {
   Sparkles,
 } from "lucide-react";
 import { HeroMotion, Reveal } from "@/components/motion";
-import { Newsletter } from "@/components/newsletter";
 import { articles, getArticleUrl } from "@/lib/content/articles";
 import { calculators } from "@/lib/calculators";
 import { JsonLd } from "@/lib/seo/json-ld";
@@ -257,7 +256,6 @@ export default function Home() {
           </div>
         </section>
 
-        <Newsletter />
       </main>
     </>
   );

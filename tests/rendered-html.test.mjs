@@ -52,6 +52,7 @@ test("renders the Canadian Wealth Lab homepage", async () => {
   assert.match(html, /Make smarter money decisions in Canada/);
   assert.match(html, /Explore calculators/);
   assert.doesNotMatch(html, /codex-preview|Your site is taking shape/);
+  assert.doesNotMatch(html, /THE LAB NOTE|Join the list|newsletter-email/);
   assert.match(
     html,
     /<script[^>]+src="https:\/\/www\.googletagmanager\.com\/gtag\/js\?id=G-PDECYVLZLB"/,

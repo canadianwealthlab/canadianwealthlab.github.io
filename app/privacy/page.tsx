@@ -30,12 +30,6 @@ export default function PrivacyPage() {
           ],
         },
         {
-          title: "Newsletter form",
-          paragraphs: [
-            "The current newsletter form is a demonstration interface. It does not transmit or store the email address entered. This policy will be updated before an email subscription service is activated.",
-          ],
-        },
-        {
           title: "Analytics",
           paragraphs: [
             "On the production website, the Google Analytics 4 tag loads with analytics storage denied by default. A standard page view is sent only after you choose Allow analytics. If you decline, analytics storage remains denied and Canadian Wealth Lab does not send its page-view or guided-interaction events. Your preference is stored in your browser and can be changed using Analytics settings in the footer.",
