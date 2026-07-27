@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight, Menu } from "lucide-react";
 
@@ -6,7 +7,14 @@ export function SiteHeader() {
     <header className="site-header">
       <div className="container nav-shell">
         <Link className="brand" href="/" aria-label="Canadian Wealth Lab home">
-          <span className="brand-mark" aria-hidden="true">CWL</span>
+          <Image
+            className="brand-mark"
+            src="/logo-north-star.svg"
+            alt=""
+            width={44}
+            height={44}
+            priority
+          />
           <span>Canadian Wealth Lab</span>
         </Link>
         <nav className="desktop-nav" aria-label="Primary navigation">

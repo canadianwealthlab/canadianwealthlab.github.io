@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { AnalyticsSettingsButton } from "@/components/analytics";
 
@@ -8,7 +9,13 @@ export function SiteFooter() {
         <div className="footer-grid">
           <div className="footer-brand">
             <Link className="brand" href="/">
-              <span className="brand-mark" aria-hidden="true">CWL</span>
+              <Image
+                className="brand-mark"
+                src="/logo-north-star.svg"
+                alt=""
+                width={44}
+                height={44}
+              />
               <span>Canadian Wealth Lab</span>
             </Link>
             <p>

@@ -45,7 +45,7 @@ button, input { font: inherit; }
 }
 .nav-shell { height: 74px; display: flex; align-items: center; justify-content: space-between; }
 .brand { display: inline-flex; align-items: center; gap: 12px; font-weight: 780; letter-spacing: -0.02em; }
-.brand-mark { display: grid; place-items: center; width: 31px; height: 31px; color: var(--cream); background: var(--green); border-radius: 50%; font-size: 12px; letter-spacing: -0.08em; }
+.brand-mark { display: block; width: 44px; height: 44px; flex: 0 0 44px; }
 .desktop-nav { display: flex; align-items: center; gap: 34px; font-size: 14px; font-weight: 600; }
 .desktop-nav > a:not(.nav-cta) { color: var(--muted); }
 .desktop-nav > a:not(.nav-cta):hover { color: var(--ink); }

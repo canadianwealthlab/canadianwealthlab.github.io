@@ -59,7 +59,7 @@ export default function Home() {
           "@type": "Organization",
           name: "Canadian Wealth Lab",
           url: absoluteUrl("/"),
-          logo: absoluteUrl("/favicon.svg"),
+          logo: absoluteUrl("/logo-north-star.svg"),
           sameAs: ["https://github.com/canadianwealthlab"],
           publishingPrinciples: absoluteUrl("/about/editorial-policy"),
         }}
