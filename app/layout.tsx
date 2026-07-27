@@ -1,18 +1,13 @@
 import type { Metadata, Viewport } from "next";
-import { DM_Sans, Manrope } from "next/font/google";
+import { Manrope } from "next/font/google";
 import { Analytics } from "@/components/analytics";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { siteConfig } from "@/lib/seo/site";
 import "./globals.css";
 
-const display = Manrope({
-  variable: "--font-display",
-  subsets: ["latin"],
-});
-
-const body = DM_Sans({
-  variable: "--font-body",
+const primaryFont = Manrope({
+  variable: "--font-primary",
   subsets: ["latin"],
 });
 
@@ -68,7 +63,7 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en-CA">
-      <body className={`${display.variable} ${body.variable}`}>
+      <body className={primaryFont.variable}>
         <SiteHeader />
         {children}
         <SiteFooter />
