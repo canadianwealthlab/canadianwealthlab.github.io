@@ -17,17 +17,15 @@ import {
   RefreshCcw,
   Scale,
   ShieldCheck,
-  Sparkles,
 } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { articles, getArticleUrl } from "@/lib/content/articles";
-import { calculators } from "@/lib/calculators";
 import { trackGuidedEvent } from "@/lib/guided/analytics";
 import {
   buildGuidedResult,
   visibleStepIds,
 } from "@/lib/guided/engine.mjs";
-import { getJourney, guidedJourneys } from "@/lib/guided/journeys";
+import { getJourney } from "@/lib/guided/journeys";
+import { getGuidedRecommendations } from "@/lib/guided/recommendations";
 import { getGuidedSources } from "@/lib/guided/sources";
 import type {
   GuidedResponses,
@@ -37,7 +35,7 @@ import type {
   JourneyId,
 } from "@/lib/guided/types";
 
-type Phase = "choose" | "questions" | "results";
+type Phase = "questions" | "results";
 
 const sourceGroups: Array<{
   type: GuidedSourceType;
@@ -169,16 +167,22 @@ function GuidedStepField({
   );
 }
 
-export function GuidedExperience() {
-  const [phase, setPhase] = useState<Phase>("choose");
-  const [journeyId, setJourneyId] = useState<JourneyId | null>(null);
+export function GuidedExperience({
+  initialJourneyId,
+  onExit,
+}: {
+  initialJourneyId: JourneyId;
+  onExit: () => void;
+}) {
+  const [phase, setPhase] = useState<Phase>("questions");
+  const journeyId = initialJourneyId;
   const [responses, setResponses] = useState<GuidedResponses>({});
   const [stepIndex, setStepIndex] = useState(0);
   const [error, setError] = useState("");
   const resultRef = useRef<HTMLDivElement>(null);
   const completedRef = useRef(false);
 
-  const journey = journeyId ? getJourney(journeyId) : undefined;
+  const journey = getJourney(journeyId);
   const visibleIds = useMemo(
     () => (journey ? visibleStepIds(journey, responses) : []),
     [journey, responses],
@@ -203,12 +207,13 @@ export function GuidedExperience() {
   );
 
   useEffect(() => {
-    trackGuidedEvent("guided_experience_started");
-  }, []);
+    trackGuidedEvent("guided_goal_selected", { journey_id: journeyId });
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [journeyId]);
 
   useEffect(() => {
     const recordAbandonment = () => {
-      if (journeyId && phase === "questions" && !completedRef.current) {
+      if (phase === "questions" && !completedRef.current) {
         trackGuidedEvent("guided_journey_abandoned", { journey_id: journeyId });
       }
     };
@@ -221,17 +226,6 @@ export function GuidedExperience() {
       resultRef.current?.focus();
     }
   }, [phase]);
-
-  function chooseJourney(id: JourneyId) {
-    setJourneyId(id);
-    setResponses({});
-    setStepIndex(0);
-    setError("");
-    setPhase("questions");
-    completedRef.current = false;
-    trackGuidedEvent("guided_goal_selected", { journey_id: id });
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }
 
   function changeResponse(value: string | number | undefined) {
     if (!activeStep) return;
@@ -278,97 +272,27 @@ export function GuidedExperience() {
 
   function goBack() {
     if (stepIndex === 0) {
-      setPhase("choose");
-      setJourneyId(null);
-      setResponses({});
-      setError("");
+      exitJourney(false);
       return;
     }
     setStepIndex((current) => current - 1);
     setError("");
   }
 
-  function restart() {
-    if (journeyId) {
+  function exitJourney(trackRestart: boolean) {
+    if (trackRestart) {
       trackGuidedEvent("guided_journey_restarted", { journey_id: journeyId });
     }
-    setPhase("choose");
-    setJourneyId(null);
     setResponses({});
     setStepIndex(0);
     setError("");
     completedRef.current = false;
     window.scrollTo({ top: 0, behavior: "smooth" });
+    onExit();
   }
 
-  if (phase === "choose") {
-    return (
-      <main className="guided-page">
-        <section className="guided-hero">
-          <div className="container guided-hero-grid">
-            <div>
-              <span className="kicker">GET GUIDED</span>
-              <h1>A clearer path through your next money decision.</h1>
-              <p>
-                Choose a goal, answer a few focused questions, and get an
-                educational decision map with tradeoffs, next steps, and
-                sources you can inspect.
-              </p>
-              <div className="guided-trust-row">
-                <span><LockKeyhole size={16} /> No account</span>
-                <span><ShieldCheck size={16} /> No answers saved</span>
-                <span><Compass size={16} /> Education, not advice</span>
-              </div>
-            </div>
-            <aside className="guided-hero-note">
-              <Sparkles size={22} aria-hidden="true" />
-              <strong>Guidance without the black box</strong>
-              <p>
-                Each result shows its assumptions and separates official rules,
-                educational material, and community perspective.
-              </p>
-            </aside>
-          </div>
-        </section>
-
-        <section className="guided-picker">
-          <div className="container">
-            <div className="guided-picker-heading">
-              <div>
-                <span className="kicker">CHOOSE YOUR STARTING POINT</span>
-                <h2>What are you trying to work through?</h2>
-              </div>
-              <p>
-                No free-text answers are requested. Your responses remain only
-                in this browser tab and disappear when you reload or leave.
-              </p>
-            </div>
-            <div className="guided-journey-grid">
-              {guidedJourneys.map((item) => (
-                <article className="guided-journey-card" key={item.id}>
-                  <span className="guided-journey-number">{item.number}</span>
-                  <div>
-                    <h3>{item.title}</h3>
-                    <p>{item.description}</p>
-                  </div>
-                  <dl>
-                    <div><dt>Time</dt><dd>{item.time}</dd></div>
-                    <div><dt>You get</dt><dd>{item.outcome}</dd></div>
-                  </dl>
-                  <button onClick={() => chooseJourney(item.id)} type="button">
-                    Start this path <ArrowRight size={17} />
-                  </button>
-                </article>
-              ))}
-            </div>
-            <p className="guided-picker-note">
-              Prefer to browse? The original <Link href="/calculators">calculators</Link>,{" "}
-              <Link href="/articles">guides</Link>, and topic directories remain available.
-            </p>
-          </div>
-        </section>
-      </main>
-    );
+  function restart() {
+    exitJourney(true);
   }
 
   if (phase === "questions" && journey && activeStep) {
@@ -442,12 +366,14 @@ export function GuidedExperience() {
 
   if (!journey || !result) return null;
 
-  const recommendedArticles = result.articleSlugs
-    .map((slug) => articles.find((article) => article.slug === slug))
-    .filter((article): article is (typeof articles)[number] => Boolean(article));
-  const recommendedCalculators = result.calculatorSlugs
-    .map((slug) => calculators.find((calculator) => calculator.slug === slug))
-    .filter((calculator): calculator is (typeof calculators)[number] => Boolean(calculator));
+  const recommendedArticles = getGuidedRecommendations(
+    "article",
+    result.articleSlugs,
+  );
+  const recommendedCalculators = getGuidedRecommendations(
+    "calculator",
+    result.calculatorSlugs,
+  );
   const resultSources = getGuidedSources(result.sourceIds);
 
   return (
@@ -540,7 +466,7 @@ export function GuidedExperience() {
           <div className="guided-resource-grid">
             {recommendedArticles.map((article) => (
               <Link
-                href={getArticleUrl(article)}
+                href={article.href}
                 key={article.slug}
                 onClick={() =>
                   trackGuidedEvent("guided_recommended_content_opened", {
@@ -556,7 +482,7 @@ export function GuidedExperience() {
             ))}
             {recommendedCalculators.map((calculator) => (
               <Link
-                href={`/calculators/${calculator.slug}`}
+                href={calculator.href}
                 key={calculator.slug}
                 onClick={() =>
                   trackGuidedEvent("guided_recommended_content_opened", {

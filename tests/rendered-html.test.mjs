@@ -84,12 +84,59 @@ test("renders the guided experience and preserves the original discovery paths",
   assert.match(guidedHtml, /What should my next dollar do/);
   assert.match(guidedHtml, /Which registered account should I learn about first/);
   assert.match(guidedHtml, /No answers saved/);
+  assert.match(guidedHtml, /href="\/guided\/next-dollar"/);
+  assert.match(guidedHtml, /href="\/guided\/registered-accounts"/);
+  assert.match(guidedHtml, /href="\/guided\/home-readiness"/);
+  assert.doesNotMatch(guidedHtml, /guided-experience-[A-Za-z0-9_-]+\.js/);
   assert.doesNotMatch(guidedHtml, /googletagmanager|G-PDECYVLZLB/);
 
   const homeHtml = await homeResponse.text();
   assert.match(homeHtml, /Not sure where to start/);
   assert.match(homeHtml, /Explore calculators/);
   assert.match(homeHtml, /Read financial guides/);
+});
+
+test("renders every guided framework as crawlable HTML without interaction", async () => {
+  const paths = [
+    [
+      "/guided/next-dollar/",
+      [
+        "What is the highest interest rate on debt you want to address?",
+        "Buffer, then high-cost debt",
+        "Official Canadian guidance",
+        "Emergency Fund Guide for Canadians",
+      ],
+    ],
+    [
+      "/guided/registered-accounts/",
+      [
+        "What is this money mainly for?",
+        "Start by verifying FHSA eligibility",
+        "Tax-Free Savings Account",
+        "TFSA vs RRSP Calculator",
+      ],
+    ],
+    [
+      "/guided/home-readiness/",
+      [
+        "What purchase price are you using for planning?",
+        "Ready for a detailed stress test",
+        "How much you need for a down payment",
+        "Rent vs Buy Calculator",
+      ],
+    ],
+  ];
+
+  for (const [pathname, expectedContent] of paths) {
+    const response = await render(pathname);
+    assert.equal(response.status, 200, pathname);
+    const html = await response.text();
+    for (const content of expectedContent) {
+      assert.match(html, new RegExp(content));
+    }
+    assert.match(html, /This HTML page exposes the complete educational framework/);
+    assert.doesNotMatch(html, /guided-experience-[A-Za-z0-9_-]+\.js/);
+  }
 });
 
 test("renders the first ten supporting guides with sources and FAQs", async () => {

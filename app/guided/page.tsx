@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { GuidedExperience } from "@/components/guided-experience";
+import { GuidedLanding } from "@/components/guided-landing";
+import { GuidedLauncher } from "@/components/guided-launcher";
 import { JsonLd } from "@/lib/seo/json-ld";
 import { absoluteUrl } from "@/lib/seo/site";
 
@@ -26,7 +27,8 @@ export default function GuidedPage() {
           offers: { "@type": "Offer", price: "0", priceCurrency: "CAD" },
         }}
       />
-      <GuidedExperience />
+      <GuidedLanding />
+      <GuidedLauncher />
     </>
   );
 }
