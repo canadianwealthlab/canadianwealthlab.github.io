@@ -3,6 +3,10 @@ const MEASUREMENT_ID = "G-PDECYVLZLB";
 const tagBootstrap = `
 window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
+gtag('set', {
+  page_location: window.location.origin + window.location.pathname,
+  page_path: window.location.pathname
+});
 gtag('set', 'ads_data_redaction', true);
 `;
 

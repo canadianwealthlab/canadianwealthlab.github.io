@@ -59,6 +59,10 @@ test("renders the Canadian Wealth Lab homepage", async () => {
   );
   assert.doesNotMatch(html, /gtag\('consent'|analytics_storage/);
   assert.match(html, /gtag\('config', 'G-PDECYVLZLB'/);
+  assert.match(
+    html,
+    /page_location: window\.location\.origin \+ window\.location\.pathname/,
+  );
   assert.match(html, /send_page_view: false/);
   assert.doesNotMatch(html, /Analytics settings|Allow analytics|>Decline</);
   assert.equal(
