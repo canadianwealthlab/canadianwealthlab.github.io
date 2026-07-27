@@ -52,10 +52,10 @@ export function GuidedLauncher() {
       setJourneyId(id);
     };
 
-    document.addEventListener("click", interceptJourneyLink);
+    document.addEventListener("click", interceptJourneyLink, true);
     return () => {
       window.clearTimeout(initialize);
-      document.removeEventListener("click", interceptJourneyLink);
+      document.removeEventListener("click", interceptJourneyLink, true);
     };
   }, []);
 
