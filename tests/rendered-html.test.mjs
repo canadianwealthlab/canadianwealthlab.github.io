@@ -3,6 +3,10 @@ import { readdir, readFile } from "node:fs/promises";
 import { extname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import test from "node:test";
+import {
+  calculatorDraftOnBlur,
+  calculatorNumberFromDraft,
+} from "../lib/calculator-input.mjs";
 
 const root = new URL("../dist/server/index.js", import.meta.url);
 const projectRoot = new URL("../", import.meta.url);
@@ -132,4 +136,11 @@ test("does not use em dash punctuation in site source", async () => {
       );
     }
   }
+});
+
+test("replaces the calculator zero fallback with the next typed value", () => {
+  assert.equal(calculatorNumberFromDraft(""), 0);
+  assert.equal(calculatorDraftOnBlur(""), "0");
+  assert.equal(calculatorNumberFromDraft("5"), 5);
+  assert.equal(calculatorDraftOnBlur("5"), "5");
 });

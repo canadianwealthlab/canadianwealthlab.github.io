@@ -1,6 +1,10 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import {
+  calculatorDraftOnBlur,
+  calculatorNumberFromDraft,
+} from "@/lib/calculator-input.mjs";
 import type { CalculatorDefinition } from "@/lib/calculators";
 
 type FieldDefinition = {
@@ -185,6 +189,9 @@ export function CalculatorExperience({ calculator }: { calculator: CalculatorDef
   const [values, setValues] = useState<Record<string, number>>(
     Object.fromEntries(fields.map((field) => [field.key, field.value])),
   );
+  const [draftValues, setDraftValues] = useState<Record<string, string>>(
+    Object.fromEntries(fields.map((field) => [field.key, String(field.value)])),
+  );
 
   const results = useMemo(() => {
     if (calculator.slug === "mortgage-prepayment") return mortgageResults(values);
@@ -209,13 +216,31 @@ export function CalculatorExperience({ calculator }: { calculator: CalculatorDef
                   inputMode="decimal"
                   max={field.max}
                   min={field.min}
+                  onBlur={(event) => {
+                    const committedDraft = calculatorDraftOnBlur(event.currentTarget.value);
+                    if (committedDraft !== event.currentTarget.value) {
+                      setDraftValues((current) => ({
+                        ...current,
+                        [field.key]: committedDraft,
+                      }));
+                    }
+                  }}
                   onChange={(event) => {
-                    const next = Number(event.target.value);
-                    setValues((current) => ({ ...current, [field.key]: Number.isFinite(next) ? next : 0 }));
+                    const draft = event.target.value;
+                    setDraftValues((current) => ({ ...current, [field.key]: draft }));
+                    setValues((current) => ({
+                      ...current,
+                      [field.key]: calculatorNumberFromDraft(draft),
+                    }));
+                  }}
+                  onFocus={(event) => {
+                    if (draftValues[field.key] === "0") {
+                      event.currentTarget.select();
+                    }
                   }}
                   step={field.step}
                   type="number"
-                  value={values[field.key]}
+                  value={draftValues[field.key]}
                 />
                 {field.suffix && <span className="input-suffix">{field.suffix}</span>}
               </div>
