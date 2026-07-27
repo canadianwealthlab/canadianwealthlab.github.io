@@ -73,6 +73,25 @@ test("renders the Canadian Wealth Lab homepage", async () => {
   );
 });
 
+test("does not expose a contact route or public outreach links", async () => {
+  const [contactResponse, homeResponse, correctionsResponse, sitemap] =
+    await Promise.all([
+      render("/contact/"),
+      render("/"),
+      render("/about/corrections-policy/"),
+      readFile(new URL("../public/sitemap.xml", import.meta.url), "utf8"),
+    ]);
+
+  assert.equal(contactResponse.status, 404);
+
+  const publicHtml = `${await homeResponse.text()}${await correctionsResponse.text()}`;
+  assert.doesNotMatch(
+    publicHtml,
+    /href="\/contact|github\.com\/canadianwealthlab|Contact the editorial team|How to report an issue/i,
+  );
+  assert.doesNotMatch(sitemap, /\/contact\//i);
+});
+
 test("renders article and calculator routes", async () => {
   const [articleResponse, calculatorResponse] = await Promise.all([
     render("/investing/tfsa-vs-rrsp/"),

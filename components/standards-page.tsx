@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
 
 export type StandardsSection = {
   title: string;
@@ -78,12 +77,6 @@ export function StandardsPage({
                 </section>
               );
             })}
-            <div className="policy-cta">
-              <p>See something that needs attention?</p>
-              <Link href="/contact">
-                Contact the editorial team <ArrowRight size={16} />
-              </Link>
-            </div>
           </div>
         </div>
       </section>

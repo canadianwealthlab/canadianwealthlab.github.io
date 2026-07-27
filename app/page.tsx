@@ -59,7 +59,6 @@ export default function Home() {
           name: "Canadian Wealth Lab",
           url: absoluteUrl("/"),
           logo: absoluteUrl("/logo-north-star.svg"),
-          sameAs: ["https://github.com/canadianwealthlab"],
           publishingPrinciples: absoluteUrl("/about/editorial-policy"),
         }}
       />

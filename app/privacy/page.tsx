@@ -45,7 +45,7 @@ export default function PrivacyPage() {
         {
           title: "Policy changes",
           paragraphs: [
-            "This policy will be updated before Canadian Wealth Lab introduces accounts, saved calculations or guided results, contact forms, active email collection, or other features that materially change personal-information handling.",
+            "This policy will be updated before Canadian Wealth Lab introduces accounts, saved calculations or guided results, active message or email collection, or other features that materially change personal-information handling.",
           ],
         },
       ]}

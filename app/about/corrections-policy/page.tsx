@@ -27,14 +27,8 @@ export default function CorrectionsPolicyPage() {
         {
           title: "How corrections are handled",
           paragraphs: [
-            "Reports are checked against the relevant source and, for calculations, reproduced independently. Confirmed issues are corrected in the article or calculator and the review date is updated.",
+            "Potential issues are checked against the relevant source and, for calculations, reproduced independently. Confirmed issues are corrected in the article or calculator and the review date is updated.",
             "A material correction that changes the conclusion, recommendation framework, or numeric result will be disclosed in a correction note on the affected page. Minor spelling, formatting, and non-substantive clarity edits may be made without a formal note.",
-          ],
-        },
-        {
-          title: "How to report an issue",
-          paragraphs: [
-            "Include the page address, the statement or result in question, why you believe it is wrong, and a primary source or reproducible example when available. We will not treat disagreement with a clearly labelled assumption as a factual error, but we may revise the explanation if the assumption is easy to misunderstand.",
           ],
         },
       ]}
