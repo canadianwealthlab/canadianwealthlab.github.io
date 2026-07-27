@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Manrope } from "next/font/google";
 import { Analytics } from "@/components/analytics";
+import { GoogleTag } from "@/components/google-tag";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { siteConfig } from "@/lib/seo/site";
@@ -63,6 +64,9 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en-CA">
+      <head>
+        <GoogleTag />
+      </head>
       <body className={primaryFont.variable}>
         <SiteHeader />
         {children}

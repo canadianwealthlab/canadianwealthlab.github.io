@@ -52,7 +52,20 @@ test("renders the Canadian Wealth Lab homepage", async () => {
   assert.match(html, /Make smarter money decisions in Canada/);
   assert.match(html, /Explore calculators/);
   assert.doesNotMatch(html, /codex-preview|Your site is taking shape/);
-  assert.doesNotMatch(html, /googletagmanager|G-PDECYVLZLB/);
+  assert.match(
+    html,
+    /<script[^>]+src="https:\/\/www\.googletagmanager\.com\/gtag\/js\?id=G-PDECYVLZLB"/,
+  );
+  assert.match(html, /gtag\('consent', 'default'/);
+  assert.match(html, /analytics_storage: 'denied'/);
+  assert.match(html, /gtag\('config', 'G-PDECYVLZLB'/);
+  assert.match(html, /send_page_view: false/);
+  assert.equal(
+    html.match(
+      /<script[^>]+src="https:\/\/www\.googletagmanager\.com\/gtag\/js\?id=G-PDECYVLZLB"[^>]*>/g,
+    )?.length,
+    1,
+  );
 });
 
 test("renders article and calculator routes", async () => {
@@ -88,7 +101,7 @@ test("renders the guided experience and preserves the original discovery paths",
   assert.match(guidedHtml, /href="\/guided\/registered-accounts"/);
   assert.match(guidedHtml, /href="\/guided\/home-readiness"/);
   assert.doesNotMatch(guidedHtml, /guided-experience-[A-Za-z0-9_-]+\.js/);
-  assert.doesNotMatch(guidedHtml, /googletagmanager|G-PDECYVLZLB/);
+  assert.match(guidedHtml, /googletagmanager\.com\/gtag\/js\?id=G-PDECYVLZLB/);
 
   const homeHtml = await homeResponse.text();
   assert.match(homeHtml, /Not sure where to start/);
