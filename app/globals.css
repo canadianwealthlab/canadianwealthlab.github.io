@@ -207,17 +207,33 @@ h1, h2, h3 { margin: 0; font-weight: 760; }
 .article-section { padding: 0 0 44px; margin-bottom: 44px; border-bottom: 1px solid var(--line); scroll-margin-top: 105px; }
 .article-section h2 { font-size: 30px; line-height: 1.25; letter-spacing: -.025em; }
 .article-section h3 { margin-top: 30px; font-size: 20px; line-height: 1.35; letter-spacing: -.01em; }
-.article-section p, .article-section li { color: #25312c; font-size: 17px; line-height: 1.75; }
-.article-section p { margin: 17px 0; }
+.article-section p, .article-section li { color: #25312c; font-size: 17px; line-height: 1.7; }
+.article-section p { margin: 15px 0; }
 .article-section li + li { margin-top: 8px; }
-.article-section ul { padding-left: 20px; }
-.article-section ol { padding-left: 24px; }
+.article-section ul { margin: 22px 0; padding-left: 22px; }
+.article-section ol { margin: 22px 0; padding-left: 25px; }
+.article-section li::marker { color: var(--coral-text); font-weight: 800; }
 .article-section a { text-decoration: underline; text-decoration-color: var(--coral); text-underline-offset: 3px; }
 .article-section code { padding: 2px 5px; border: 1px solid var(--line); background: var(--paper); font-family: var(--font-primary), sans-serif; font-size: .92em; }
 .article-callout { margin: 23px 0; padding: 20px 22px; border-left: 4px solid var(--coral); background: var(--paper); color: #25312c; font-size: 17px; line-height: 1.7; }
-.quick-answer { padding: 28px; border-left: 4px solid var(--coral); background: var(--paper); }
+.quick-answer { padding: 30px; border-left: 4px solid var(--coral); border-bottom: 0; background: var(--paper); }
 .quick-answer h2 { font-size: 14px; text-transform: uppercase; letter-spacing: .08em; }
 .quick-answer p:last-child { margin-bottom: 0; }
+.quick-answer .article-callout { margin: 22px 0; border: 1px solid var(--line); border-left: 4px solid var(--coral); background: white; font-size: 18px; }
+.quick-answer ul { display: grid; gap: 1px; margin: 24px 0 0; padding: 1px; list-style: none; background: var(--line); }
+.quick-answer li { margin: 0; padding: 14px 16px; background: white; font-size: 15px; line-height: 1.6; }
+.article-table-wrap { max-width: 100%; overflow-x: auto; margin: 28px 0 32px; border: 1px solid var(--line); background: var(--paper); }
+.article-table-wrap:focus-visible { outline: 3px solid var(--coral); outline-offset: 3px; }
+.article-table { width: 100%; min-width: 640px; border-collapse: collapse; }
+.article-table th, .article-table td { padding: 16px 17px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); color: #25312c; font-size: 14px; line-height: 1.55; text-align: left; vertical-align: top; }
+.article-table thead th { color: var(--green); background: #e4e9e1; font-size: 11px; font-weight: 800; letter-spacing: .07em; text-transform: uppercase; }
+.article-table tbody th { width: 22%; color: var(--ink); font-weight: 800; }
+.article-table tr:last-child > * { border-bottom: 0; }
+.article-table tr > *:last-child { border-right: 0; }
+.article-table a { font-weight: 750; }
+.article-decision-framework ol { padding: 0; list-style: none; counter-reset: article-steps; border-top: 1px solid var(--line); }
+.article-decision-framework ol li { display: grid; grid-template-columns: 44px 1fr; gap: 14px; align-items: start; margin: 0; padding: 17px 0; border-bottom: 1px solid var(--line); counter-increment: article-steps; }
+.article-decision-framework ol li::before { content: counter(article-steps, decimal-leading-zero); color: var(--coral-text); font-size: 12px; font-weight: 800; letter-spacing: .05em; }
 .community-perspectives { padding: 44px 0; margin: 0 0 44px; border-bottom: 1px solid var(--line); scroll-margin-top: 105px; }
 .community-heading { display: grid; grid-template-columns: 45px 1fr; align-items: start; gap: 14px; }
 .community-icon { width: 40px; height: 40px; display: grid; place-items: center; border-radius: 50%; background: var(--coral); color: var(--ink); }
@@ -705,6 +721,8 @@ h1, h2, h3 { margin: 0; font-weight: 760; }
   .article-header h1 { font-size: 43px; }
   .article-layout { margin-top: 52px; }
   .article-section h2 { font-size: 27px; }
+  .quick-answer { padding: 25px 21px; }
+  .article-table { min-width: 590px; }
   .calculator-intro { gap: 22px; margin-bottom: 35px; }
   .calculator-intro h1 { font-size: 43px; }
   .calculator-inputs, .calculator-results { padding: 25px 20px; }

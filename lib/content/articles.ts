@@ -19,6 +19,7 @@ export type ArticleSection = {
     | { type: "list"; values: string[] }
     | { type: "ordered-list"; values: string[] }
     | { type: "callout"; value: string }
+    | { type: "table"; headers: string[]; rows: string[][] }
   >;
 };
 
@@ -67,6 +68,7 @@ function parseSections(content: string): ArticleSection[] {
   let paragraph: string[] = [];
   let list: string[] = [];
   let orderedList: string[] = [];
+  let tableLines: string[] = [];
 
   const flushParagraph = () => {
     if (current && paragraph.length) {
@@ -86,8 +88,32 @@ function parseSections(content: string): ArticleSection[] {
       orderedList = [];
     }
   };
+  const flushTable = () => {
+    if (!current || tableLines.length < 2) {
+      tableLines = [];
+      return;
+    }
+    const cells = tableLines.map((line) =>
+      line
+        .trim()
+        .replace(/^\||\|$/g, "")
+        .split("|")
+        .map((cell) => cell.trim()),
+    );
+    const separator = cells[1];
+    if (separator.every((cell) => /^:?-{3,}:?$/.test(cell))) {
+      current.blocks.push({
+        type: "table",
+        headers: cells[0],
+        rows: cells.slice(2),
+      });
+    }
+    tableLines = [];
+  };
 
   for (const line of lines) {
+    const isTableLine = /^\s*\|.*\|\s*$/.test(line);
+    if (!isTableLine) flushTable();
     if (line.startsWith("## ")) {
       flushParagraph();
       flushList();
@@ -95,6 +121,13 @@ function parseSections(content: string): ArticleSection[] {
       const title = line.slice(3).trim();
       current = { title, id: slugify(title), blocks: [] };
       sections.push(current);
+      continue;
+    }
+    if (isTableLine) {
+      flushParagraph();
+      flushList();
+      flushOrderedList();
+      tableLines.push(line);
       continue;
     }
     if (!current) continue;
@@ -136,6 +169,7 @@ function parseSections(content: string): ArticleSection[] {
   flushParagraph();
   flushList();
   flushOrderedList();
+  flushTable();
   return sections;
 }
 

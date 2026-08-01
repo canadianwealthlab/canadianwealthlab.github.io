@@ -238,6 +238,24 @@ test("renders representative publication-ready guides with sources and FAQs", as
   }
 });
 
+test("renders the debt-versus-invest guide with the reusable consumer article standard", async () => {
+  const response = await render("/money-management/debt-or-invest/");
+  assert.equal(response.status, 200);
+  const html = await response.text();
+  assert.match(html, /Quick Answer/);
+  assert.match(html, /Key takeaway/);
+  assert.match(html, /article-table/);
+  assert.match(html, /Paying down debt/);
+  assert.match(html, /Credit card at 20%/);
+  assert.match(html, /Line of credit at 8%/);
+  assert.match(html, /Fixed loan at 3%/);
+  assert.match(html, /\$1,800/);
+  assert.match(html, /A Simple Decision Framework/);
+  assert.doesNotMatch(html, />The Case for Debt Repayment</);
+  assert.doesNotMatch(html, />The Case for Investing</);
+  assert.match(html, /rel="canonical" href="https:\/\/canadianwealthlab\.github\.io\/money-management\/debt-or-invest"/);
+});
+
 test("renders cluster and credibility routes", async () => {
   const [clusterResponse, policyResponse, authorResponse, startResponse, perspectiveResponse] = await Promise.all([
     render("/housing/"),

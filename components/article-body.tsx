@@ -30,9 +30,12 @@ function renderInline(text: string): ReactNode[] {
 export function ArticleBody({ sections }: { sections: ArticleSection[] }) {
   return (
     <div className="prose">
-      {sections.map((section) => (
+      {sections.map((section) => {
+        const isSummary = section.title === "Quick Answer" || section.title === "Executive Summary";
+        const isFramework = section.title === "Decision Framework" || section.title === "A Simple Decision Framework";
+        return (
         <section
-          className={`article-section ${section.title === "Quick Answer" ? "quick-answer" : ""}`}
+          className={`article-section${isSummary ? " quick-answer" : ""}${isFramework ? " article-decision-framework" : ""}`}
           id={section.id}
           key={section.id}
         >
@@ -62,10 +65,36 @@ export function ArticleBody({ sections }: { sections: ArticleSection[] }) {
                 </aside>
               );
             }
+            if (block.type === "table") {
+              return (
+                <div
+                  aria-label={`${section.title} comparison table`}
+                  className="article-table-wrap"
+                  key={`${section.id}-${index}`}
+                  role="region"
+                  tabIndex={0}
+                >
+                  <table className="article-table">
+                    <thead>
+                      <tr>{block.headers.map((header) => <th key={header} scope="col">{renderInline(header)}</th>)}</tr>
+                    </thead>
+                    <tbody>
+                      {block.rows.map((row, rowIndex) => (
+                        <tr key={`${section.id}-${index}-${rowIndex}`}>
+                          {row.map((cell, cellIndex) => cellIndex === 0
+                            ? <th key={`${cell}-${cellIndex}`} scope="row">{renderInline(cell)}</th>
+                            : <td key={`${cell}-${cellIndex}`}>{renderInline(cell)}</td>)}
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              );
+            }
             return <p key={`${section.id}-${index}`}>{renderInline(block.value)}</p>;
           })}
         </section>
-      ))}
+      );})}
     </div>
   );
 }
