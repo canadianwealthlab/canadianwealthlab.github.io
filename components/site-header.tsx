@@ -11,36 +11,43 @@ export function SiteHeader() {
           <span>Canadian Wealth Lab</span>
         </Link>
         <nav className="desktop-nav" aria-label="Primary navigation">
-          <Link href="/guided">Get Guided</Link>
-          <Link href="/calculators">Calculators</Link>
+          <Link href="/start-here">Start Here</Link>
           <details className="topics-nav">
-            <summary>Topics</summary>
+            <summary>Guides</summary>
             <div className="topics-menu">
-              <Link href="/housing">Housing</Link>
+              <Link href="/guides">All Guides</Link>
+              <Link href="/money-management">Money Management</Link>
+              <Link href="/taxes">Tax Strategy</Link>
               <Link href="/investing">Investing</Link>
-              <Link href="/retirement">Retirement</Link>
-              <Link href="/taxes">Taxes</Link>
-              <Link href="/money-management">Money management</Link>
+              <Link href="/housing">Housing</Link>
+              <Link href="/retirement">Retirement &amp; Financial Independence</Link>
             </div>
           </details>
-          <Link href="/articles">Guides</Link>
+          <Link href="/perspective">Perspective</Link>
           <Link href="/about">About</Link>
-          <Link className="nav-cta" href="/guided">
-            Start a guided path <ArrowUpRight size={15} />
-          </Link>
+          <details className="topics-nav tools-nav">
+            <summary>Tools</summary>
+            <div className="topics-menu">
+              <Link href="/calculators">Calculators</Link>
+              <Link href="/guided">Guided paths</Link>
+            </div>
+          </details>
+          <Link className="nav-cta" href="/start-here">Find a starting point <ArrowUpRight size={15} /></Link>
         </nav>
         <details className="mobile-nav">
           <summary aria-label="Open navigation"><Menu size={24} /></summary>
           <nav className="mobile-menu" aria-label="Mobile navigation">
-            <Link href="/guided">Get Guided</Link>
-            <Link href="/calculators">Calculators</Link>
-            <Link href="/articles">Guides</Link>
+            <Link href="/start-here">Start Here</Link>
+            <Link href="/guides">Guides</Link>
+            <Link href="/perspective">Perspective</Link>
+            <Link href="/about">About</Link>
             <Link href="/housing">Housing</Link>
             <Link href="/investing">Investing</Link>
-            <Link href="/retirement">Retirement</Link>
-            <Link href="/taxes">Taxes</Link>
-            <Link href="/money-management">Money management</Link>
-            <Link href="/about">About</Link>
+            <Link href="/retirement">Retirement &amp; Financial Independence</Link>
+            <Link href="/taxes">Tax Strategy</Link>
+            <Link href="/money-management">Money Management</Link>
+            <Link href="/calculators">Calculators</Link>
+            <Link href="/guided">Guided paths</Link>
           </nav>
         </details>
       </div>

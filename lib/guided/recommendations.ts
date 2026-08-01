@@ -18,24 +18,24 @@ export const guidedArticleRecommendations: GuidedRecommendation[] = [
     href: "/housing/pay-off-mortgage-or-invest",
   },
   {
-    slug: "how-to-start-investing-canada",
-    title: "How to Start Investing in Canada",
-    href: "/investing/how-to-start-investing-canada",
+    slug: "building-investment-plan",
+    title: "Building a Diversified Investment Plan",
+    href: "/investing/building-investment-plan",
   },
   {
     slug: "tfsa-guide",
     title: "TFSA Guide",
-    href: "/investing/tfsa-guide",
+    href: "/taxes/tfsa-guide",
   },
   {
     slug: "rrsp-guide",
     title: "RRSP Guide",
-    href: "/investing/rrsp-guide",
+    href: "/taxes/rrsp-guide",
   },
   {
-    slug: "tfsa-vs-rrsp",
-    title: "TFSA vs RRSP: Which One Should I Use?",
-    href: "/investing/tfsa-vs-rrsp",
+    slug: "tfsa-rrsp-fhsa",
+    title: "TFSA vs RRSP vs FHSA",
+    href: "/taxes/tfsa-rrsp-fhsa",
   },
   {
     slug: "down-payment-canada",
@@ -75,12 +75,12 @@ export const guidedJourneyRecommendations: Record<
     articleSlugs: [
       "emergency-fund-canada",
       "pay-off-mortgage-or-invest",
-      "how-to-start-investing-canada",
+      "building-investment-plan",
     ],
     calculatorSlugs: [],
   },
   "registered-accounts": {
-    articleSlugs: ["tfsa-guide", "rrsp-guide", "tfsa-vs-rrsp"],
+    articleSlugs: ["tfsa-guide", "rrsp-guide", "tfsa-rrsp-fhsa"],
     calculatorSlugs: ["tfsa-vs-rrsp"],
   },
   "home-readiness": {

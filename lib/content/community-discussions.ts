@@ -11,7 +11,7 @@ export const communityDiscussionsBySlug: Record<
   string,
   CommunityDiscussion[]
 > = {
-  "tfsa-vs-rrsp": [
+  "tfsa-rrsp-fhsa": [
     {
       threadTitle: "RRSP vs TFSA",
       subreddit: "r/PersonalFinanceCanada",
@@ -43,18 +43,6 @@ export const communityDiscussionsBySlug: Record<
       excerpt: "“Do you like where you live now?”",
       takeaway:
         "The highest-value replies widen the decision beyond monthly cost. Stability, location, space, mobility, invested savings, maintenance, and the expected holding period all change the answer.",
-    },
-  ],
-  "veqt-vs-xeqt": [
-    {
-      threadTitle: "XEQT and VEQT?",
-      subreddit: "r/PersonalFinanceCanada",
-      date: "2026-03-10",
-      url: "https://www.reddit.com/r/PersonalFinanceCanada/comments/1rpjkl0/xeqt_and_veqt/",
-      excerpt:
-        "“I would just pick one. They are way more similar than they are different.”",
-      takeaway:
-        "The discussion highlights a behavioural point that product tables can miss: small allocation and fee differences may matter less than choosing an appropriate all-equity portfolio and contributing consistently.",
     },
   ],
   "how-much-to-retire": [
@@ -113,18 +101,7 @@ export const communityDiscussionsBySlug: Record<
         "The community discussion reinforces the key planning point: an RRSP deduction should be evaluated against current income, future withdrawals, flexibility, and how the refund will be used.",
     },
   ],
-  "how-to-start-investing-canada": [
-    {
-      threadTitle: "How to start investing as a newcomer",
-      subreddit: "r/PersonalFinanceCanada",
-      date: "2026-03-22",
-      url: "https://www.reddit.com/r/PersonalFinanceCanada/comments/1s0r1kj/how_to_start_investing_as_a_newcomer/",
-      excerpt: "“Set up a monthly automatic transfer.”",
-      takeaway:
-        "The strongest practical signal is simplicity: select an appropriate account and diversified approach, automate a sustainable amount, and add complexity only when it solves a real need.",
-    },
-  ],
-  "retirement-planning-canada": [
+  "retirement-spending-withdrawal-rates": [
     {
       threadTitle: "How much is enough for retirement?",
       subreddit: "r/PersonalFinanceCanada",
@@ -146,18 +123,6 @@ export const communityDiscussionsBySlug: Record<
         "“When to take CPP is a complex question involving tax brackets, life expectancy, monetary needs, etc.”",
       takeaway:
         "The discussion is useful because it moves beyond the maximum payment. Personal estimates, cash needs, longevity, taxes, and the assets used while delaying all affect the decision.",
-    },
-  ],
-  "when-to-take-cpp": [
-    {
-      threadTitle: "When should you take CPP in retirement?",
-      subreddit: "r/PersonalFinanceCanada",
-      date: "2022-04-18",
-      url: "https://www.reddit.com/r/PersonalFinanceCanada/comments/u64cwb/when_should_you_take_cpp_in_retirement/",
-      excerpt:
-        "“This post isn’t the absolute answer, just food for thought.”",
-      takeaway:
-        "That caveat is important. A cumulative-payment break-even is one input, not a complete answer, because taxes, investment risk, health, household income, and the value of late-life guarantees also matter.",
     },
   ],
   "emergency-fund-canada": [

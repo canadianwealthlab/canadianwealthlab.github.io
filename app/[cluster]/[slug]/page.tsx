@@ -11,10 +11,12 @@ import { getCluster } from "@/lib/content/clusters";
 export const dynamicParams = false;
 
 export function generateStaticParams() {
-  return articles.map((article) => ({
-    cluster: article.cluster,
-    slug: article.slug,
-  }));
+  return articles
+    .filter((article) => getCluster(article.cluster))
+    .map((article) => ({
+      cluster: article.cluster,
+      slug: article.slug,
+    }));
 }
 
 export async function generateMetadata({

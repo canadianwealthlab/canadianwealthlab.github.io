@@ -73,7 +73,7 @@ export function GuidedLanding() {
           </div>
           <p className="guided-picker-note">
             Prefer to browse? The original <Link href="/calculators">calculators</Link>,{" "}
-            <Link href="/articles">guides</Link>, and topic directories remain available.
+            <Link href="/guides">guides</Link>, and topic directories remain available.
           </p>
         </div>
       </section>

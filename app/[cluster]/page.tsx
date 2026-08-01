@@ -10,6 +10,7 @@ import {
   clusterSlugs,
   getCluster,
 } from "@/lib/content/clusters";
+import { financialValues } from "@/lib/content/annual-values";
 import { JsonLd } from "@/lib/seo/json-ld";
 import { absoluteUrl } from "@/lib/seo/site";
 
@@ -130,6 +131,45 @@ export default async function ClusterPage({
         </div>
       </section>
 
+      <section className="section cluster-overview" aria-labelledby="cluster-overview-title">
+        <div className="container cluster-overview-grid">
+          <div>
+            <span className="kicker">CLUSTER OVERVIEW</span>
+            <h2 id="cluster-overview-title">How to use this research</h2>
+          </div>
+          <div className="cluster-overview-copy">
+            {cluster.overview.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+            <h3>Suggested reading path</h3>
+            <ol>{cluster.readingPath.map((step) => <li key={step}>{step}</li>)}</ol>
+          </div>
+        </div>
+      </section>
+
+      {cluster.slug === "taxes" && (
+        <section className="section annual-values" aria-labelledby="annual-values-title">
+          <div className="container">
+            <div className="section-heading split-heading">
+              <div>
+                <span className="kicker">{financialValues.taxYear} REFERENCE</span>
+                <h2 id="annual-values-title">Current federal registered-account limits.</h2>
+              </div>
+              <p>
+                General figures only. Personal contribution room and eligibility
+                must be verified in CRA records and current program rules.
+              </p>
+            </div>
+            <div className="annual-value-grid">
+              <article><span>TFSA annual limit</span><strong>${financialValues.tfsaAnnualLimit.toLocaleString("en-CA")}</strong></article>
+              <article><span>FHSA annual limit</span><strong>${financialValues.fhsaAnnualLimit.toLocaleString("en-CA")}</strong></article>
+              <article><span>FHSA lifetime limit</span><strong>${financialValues.fhsaLifetimeLimit.toLocaleString("en-CA")}</strong></article>
+              <article><span>HBP withdrawal limit</span><strong>${financialValues.hbpWithdrawalLimit.toLocaleString("en-CA")}</strong></article>
+              <article><span>RRSP dollar limit</span><strong>${financialValues.rrspDollarLimit.toLocaleString("en-CA")}</strong></article>
+            </div>
+            <p className="annual-values-note">Reviewed {financialValues.reviewedDate}. Verify personal room before contributing.</p>
+          </div>
+        </section>
+      )}
+
       {clusterArticles.length > 0 && (
         <section className="section cluster-guides">
           <div className="container">
@@ -138,7 +178,7 @@ export default async function ClusterPage({
                 <span className="kicker">RESEARCH LIBRARY</span>
                 <h2>{cluster.name} guides</h2>
               </div>
-              <Link className="text-link" href="/articles">
+              <Link className="text-link" href="/guides">
                 Browse all guides <ArrowRight size={16} />
               </Link>
             </div>
@@ -217,7 +257,7 @@ export default async function ClusterPage({
             ))}
           </div>
           <div className="cluster-policy-link">
-            <Link href="/about/editorial-policy">
+            <Link href="/about/editorial-standards">
               Read our editorial standards <ArrowRight size={16} />
             </Link>
           </div>

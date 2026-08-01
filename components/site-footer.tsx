@@ -18,19 +18,17 @@ export function SiteFooter() {
           </div>
           <div className="footer-column">
             <strong>Explore</strong>
-            <Link href="/guided">Get Guided</Link>
-            <Link href="/calculators">Calculators</Link>
-            <Link href="/articles">Financial guides</Link>
-            <Link href="/housing">Housing</Link>
-            <Link href="/investing">Investing</Link>
-            <Link href="/retirement">Retirement</Link>
+            <Link href="/start-here">Start Here</Link>
+            <Link href="/guides">Guides</Link>
+            <Link href="/perspective">Perspective</Link>
+            <Link href="/calculators">Tools</Link>
           </div>
           <div className="footer-column">
             <strong>Standards</strong>
             <Link href="/about">About the lab</Link>
-            <Link href="/about/editorial-policy">Editorial policy</Link>
-            <Link href="/about/methodology">Methodology</Link>
-            <Link href="/about/corrections-policy">Corrections</Link>
+            <Link href="/about/editorial-standards">Editorial Standards</Link>
+            <Link href="/about/research-methodology">Research Methodology</Link>
+            <Link href="/about/sources-and-corrections">Sources and Corrections</Link>
           </div>
           <div className="footer-column">
             <strong>Information</strong>

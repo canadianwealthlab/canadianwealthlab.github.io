@@ -313,7 +313,7 @@ export default async function GuidedJourneyPage({
           <Link className="button button-secondary" href="/guided">
             <ArrowLeft size={17} /> View all guided paths
           </Link>
-          <Link className="button button-secondary" href="/articles">
+          <Link className="button button-secondary" href="/guides">
             Browse all guides <ArrowUpRight size={17} />
           </Link>
         </div>

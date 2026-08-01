@@ -75,3 +75,14 @@ Pushing `main` to the GitHub remote triggers GitHub Actions, which runs
 `npm ci`, builds the site, uploads `dist/client`, and deploys GitHub Pages.
 Sites deployment uses the same validated commit, the repository packaging
 helper, a saved Sites version, and the existing private deployment target.
+
+## Permanent page removal
+
+When Canadian Wealth Lab intentionally retires a page, delete or unpublish it
+and remove every navigation, index, related-content, feed, structured-data, and
+sitemap reference. The former URL must return a genuine HTTP 404 response. Do
+not redirect it, add a canonical to another page, return a soft 404 with HTTP
+200, preserve a placeholder, or automatically generate a replacement route. A
+redirect may be added only when the owner explicitly requests one for that
+specific URL. Verify representative retired URLs directly after route or
+content removals.

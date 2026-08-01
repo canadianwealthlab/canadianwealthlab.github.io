@@ -66,14 +66,14 @@ export default function EditorialTeamPage() {
           </div>
         </div>
         <div className="container author-links">
-          <Link href="/about/editorial-policy">
-            Editorial policy <ArrowRight size={15} />
+          <Link href="/about/editorial-standards">
+            Editorial Standards <ArrowRight size={15} />
           </Link>
-          <Link href="/about/methodology">
-            Calculator methodology <ArrowRight size={15} />
+          <Link href="/about/research-methodology">
+            Research Methodology <ArrowRight size={15} />
           </Link>
-          <Link href="/about/corrections-policy">
-            Corrections policy <ArrowRight size={15} />
+          <Link href="/about/sources-and-corrections">
+            Sources and Corrections <ArrowRight size={15} />
           </Link>
         </div>
       </section>

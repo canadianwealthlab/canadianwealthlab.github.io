@@ -48,9 +48,12 @@ test("renders the Canadian Wealth Lab homepage", async () => {
   const response = await render("/");
   assert.equal(response.status, 200);
   const html = await response.text();
-  assert.match(html, /<title>Canadian personal finance calculators and guides \| Canadian Wealth Lab<\/title>/i);
-  assert.match(html, /Make smarter money decisions in Canada/);
-  assert.match(html, /Explore calculators/);
+  assert.match(html, /<title>Evidence-based Canadian personal finance guidance \| Canadian Wealth Lab<\/title>/i);
+  assert.match(html, /Better evidence for better financial decisions/);
+  assert.match(html, /Choose the decision in front of you/);
+  assert.match(html, /The CWL Financial Order of Operations/);
+  assert.match(html, /Five connected parts of one financial life/);
+  assert.match(html, /Test the assumptions with your own numbers/);
   assert.doesNotMatch(html, /codex-preview|Your site is taking shape/);
   assert.doesNotMatch(html, /THE LAB NOTE|Join the list|newsletter-email/);
   assert.match(
@@ -78,7 +81,7 @@ test("does not expose a contact route or public outreach links", async () => {
     await Promise.all([
       render("/contact/"),
       render("/"),
-      render("/about/corrections-policy/"),
+      render("/about/sources-and-corrections/"),
       readFile(new URL("../public/sitemap.xml", import.meta.url), "utf8"),
     ]);
 
@@ -94,13 +97,17 @@ test("does not expose a contact route or public outreach links", async () => {
 
 test("renders article and calculator routes", async () => {
   const [articleResponse, calculatorResponse] = await Promise.all([
-    render("/investing/tfsa-vs-rrsp/"),
+    render("/taxes/tfsa-rrsp-fhsa/"),
     render("/calculators/mortgage-prepayment/"),
   ]);
   assert.equal(articleResponse.status, 200);
   assert.equal(calculatorResponse.status, 200);
   const articleHtml = await articleResponse.text();
-  assert.match(articleHtml, /TFSA vs RRSP: Which One Should I Use/);
+  assert.match(articleHtml, /TFSA vs RRSP vs FHSA/);
+  assert.match(articleHtml, /Decision Guide/);
+  assert.match(articleHtml, /Who this is for/);
+  assert.match(articleHtml, /Primary sources/);
+  assert.match(articleHtml, /Reviewed against primary Canadian sources/);
   assert.match(articleHtml, /COMMUNITY PERSPECTIVES/);
   assert.match(articleHtml, /anecdotal, may be incomplete or wrong/);
   assert.match(
@@ -128,9 +135,9 @@ test("renders the guided experience and preserves the original discovery paths",
   assert.match(guidedHtml, /googletagmanager\.com\/gtag\/js\?id=G-PDECYVLZLB/);
 
   const homeHtml = await homeResponse.text();
-  assert.match(homeHtml, /Not sure where to start/);
-  assert.match(homeHtml, /Explore calculators/);
-  assert.match(homeHtml, /Read financial guides/);
+  assert.match(homeHtml, /START WITH YOUR SITUATION/);
+  assert.match(homeHtml, /Start Here/);
+  assert.match(homeHtml, /Browse Guides/);
 });
 
 test("renders every guided framework as crawlable HTML without interaction", async () => {
@@ -176,17 +183,17 @@ test("renders every guided framework as crawlable HTML without interaction", asy
   }
 });
 
-test("renders the first ten supporting guides with sources and FAQs", async () => {
+test("renders representative publication-ready guides with sources and FAQs", async () => {
   const guides = [
     ["/housing/how-much-house-can-i-afford/", /How Much House Can I Afford in Canada/],
     ["/housing/down-payment-canada/", /Down Payment Requirements in Canada/],
-    ["/investing/tfsa-guide/", /TFSA Guide/],
-    ["/investing/rrsp-guide/", /RRSP Guide/],
-    ["/investing/how-to-start-investing-canada/", /How to Start Investing in Canada/],
-    ["/retirement/retirement-planning-canada/", /Retirement Planning in Canada/],
-    ["/retirement/cpp-guide/", /CPP Guide/],
-    ["/retirement/when-to-take-cpp/", /When Should You Take CPP/],
-    ["/taxes/income-tax-brackets-canada/", /Canadian Income Tax Brackets for 2026/],
+    ["/housing/choosing-managing-mortgage/", /Choosing and Managing a Canadian Mortgage/],
+    ["/taxes/tfsa-guide/", /TFSA Guide/],
+    ["/taxes/rrsp-guide/", /RRSP Guide/],
+    ["/taxes/how-canadian-income-tax-works/", /How Canadian Income Tax Works/],
+    ["/investing/building-investment-plan/", /Building a Diversified Investment Plan/],
+    ["/retirement/cpp-guide/", /Understanding CPP and When to Start/],
+    ["/retirement/retirement-spending-withdrawal-rates/", /Retirement Spending and Withdrawal Rates/],
     ["/money-management/emergency-fund-canada/", /Emergency Fund Guide for Canadians/],
   ];
 
@@ -202,26 +209,90 @@ test("renders the first ten supporting guides with sources and FAQs", async () =
 });
 
 test("renders cluster and credibility routes", async () => {
-  const [clusterResponse, policyResponse, authorResponse] = await Promise.all([
+  const [clusterResponse, policyResponse, authorResponse, startResponse, perspectiveResponse] = await Promise.all([
     render("/housing/"),
-    render("/about/editorial-policy/"),
+    render("/about/editorial-standards/"),
     render("/authors/canadian-wealth-lab/"),
+    render("/start-here/cwl-financial-roadmap/"),
+    render("/perspective/how-cwl-approaches-financial-decisions/"),
   ]);
   assert.equal(clusterResponse.status, 200);
   assert.equal(policyResponse.status, 200);
   assert.equal(authorResponse.status, 200);
+  assert.equal(startResponse.status, 200);
+  assert.equal(perspectiveResponse.status, 200);
   assert.match(await clusterResponse.text(), /Housing guides/);
-  assert.match(await policyResponse.text(), /Editorial policy/);
+  assert.match(await policyResponse.text(), /Evidence before confidence/);
   assert.match(await authorResponse.text(), /does not claim a professional designation/);
+  assert.match(await startResponse.text(), /The CWL Financial Roadmap/);
+  assert.match(await perspectiveResponse.text(), /CWL Perspective/);
 });
 
-test("keeps legacy article URLs discoverable but non-canonical", async () => {
-  const response = await render("/articles/tfsa-vs-rrsp/");
-  assert.equal(response.status, 200);
-  const html = await response.text();
-  assert.match(html, /GUIDE MOVED/);
-  assert.match(html, /investing\/tfsa-vs-rrsp/);
-  assert.match(html, /noindex/i);
+test("returns genuine 404 responses for retired and excluded routes", async () => {
+  const retiredPaths = [
+    "/income-career/",
+    "/income-career/salary-negotiation/",
+    "/protecting-wealth/",
+    "/protecting-wealth/life-insurance/",
+    "/articles/",
+    "/articles/tfsa-vs-rrsp/",
+    "/investing/veqt-vs-xeqt/",
+    "/investing/how-to-start-investing-canada/",
+    "/taxes/tfsa-vs-rrsp/",
+    "/about/editorial-policy/",
+  ];
+
+  for (const pathname of retiredPaths) {
+    const response = await render(pathname);
+    assert.equal(response.status, 404, pathname);
+    const html = await response.text();
+    assert.doesNotMatch(html, /http-equiv=["']refresh/i);
+    assert.doesNotMatch(html, /rel=["']canonical/i);
+    assert.equal(response.headers.has("location"), false, pathname);
+  }
+});
+
+test("keeps retired and excluded routes out of the sitemap", async () => {
+  const sitemap = await readFile(new URL("../public/sitemap.xml", import.meta.url), "utf8");
+  const retiredFragments = [
+    "/income-career/",
+    "/protecting-wealth/",
+    "/articles/",
+    "/investing/veqt-vs-xeqt/",
+    "/investing/how-to-start-investing-canada/",
+    "/taxes/tfsa-vs-rrsp/",
+    "/about/editorial-policy/",
+  ];
+
+  for (const fragment of retiredFragments) {
+    assert.equal(sitemap.includes(fragment), false, fragment);
+  }
+
+  assert.match(sitemap, /\/start-here\/cwl-financial-roadmap\//);
+  assert.match(sitemap, /\/taxes\/tfsa-rrsp-fhsa\//);
+  assert.match(sitemap, /\/perspective\/how-cwl-approaches-financial-decisions\//);
+});
+
+test("renders every sitemap route and keeps internal links in the published route set", async () => {
+  const sitemap = await readFile(new URL("../public/sitemap.xml", import.meta.url), "utf8");
+  const sitemapPaths = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map(
+    ([, location]) => new URL(location).pathname,
+  );
+  const publishedPaths = new Set(sitemapPaths);
+
+  for (const pathname of sitemapPaths) {
+    const response = await render(pathname);
+    assert.equal(response.status, 200, pathname);
+    const html = await response.text();
+    const internalLinks = [...html.matchAll(/href=["'](\/[^"'#?]*)/g)]
+      .map(([, href]) => href)
+      .filter((href) => !href.startsWith("/assets/"))
+      .map((href) => href === "/" ? "/" : `${href.replace(/\/$/, "")}/`);
+
+    for (const href of internalLinks) {
+      assert.equal(publishedPaths.has(href), true, `${pathname} links to unpublished ${href}`);
+    }
+  }
 });
 
 test("does not use em dash punctuation in site source", async () => {

@@ -3,7 +3,7 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "About",
+  title: "About CWL",
   description:
     "Why Canadian Wealth Lab exists, how we approach financial decisions, and what readers should expect from our work.",
   alternates: { canonical: "/about" },
@@ -22,7 +22,7 @@ export default function AboutPage() {
       <section className="page-hero">
         <div className="container page-hero-inner">
           <span className="kicker">ABOUT THE LAB</span>
-          <h1>Financial clarity is a public good.</h1>
+          <h1>About Canadian Wealth Lab</h1>
           <p>
             Canadian Wealth Lab exists to make consequential money decisions
             easier to understand without acting like a bank, an advisor, or a market pundit.
@@ -43,9 +43,10 @@ export default function AboutPage() {
               variables legible.
             </p>
             <p>
-              The MVP combines transparent calculators with balanced educational
-              guides. We do not provide personalized advice, predict markets, or
-              claim there is one correct choice for every household.
+              The platform combines transparent calculators, guided decision
+              paths, factual Guides, and balanced Decision Guides. We do not
+              provide personalized advice, predict markets, or claim there is
+              one correct choice for every household.
             </p>
             <Link className="text-link" href="/calculators">
               Explore the calculators <ArrowRight size={16} />
@@ -74,10 +75,11 @@ export default function AboutPage() {
           </div>
           <div className="standards-link-grid">
             {[
-              ["Editorial policy", "/about/editorial-policy"],
-              ["Calculator methodology", "/about/methodology"],
-              ["Sources and standards", "/about/sources-and-standards"],
-              ["Corrections policy", "/about/corrections-policy"],
+              ["Why CWL Exists", "/about/why-cwl-exists"],
+              ["Editorial Standards", "/about/editorial-standards"],
+              ["Research Methodology", "/about/research-methodology"],
+              ["Sources and Corrections", "/about/sources-and-corrections"],
+              ["Disclosures and Disclaimer", "/disclaimer"],
               ["Editorial team", "/authors/canadian-wealth-lab"],
             ].map(([label, href]) => (
               <Link href={href} key={href}>

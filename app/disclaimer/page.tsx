@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { StandardsPage } from "@/components/standards-page";
 
 export const metadata: Metadata = {
-  title: "Financial information disclaimer",
+  title: "Disclosures and Disclaimer",
   description:
     "Important limitations of Canadian Wealth Lab financial guides and calculators.",
   alternates: { canonical: "/disclaimer" },
@@ -13,9 +13,15 @@ export default function DisclaimerPage() {
     <StandardsPage
       parent={null}
       kicker="IMPORTANT INFORMATION"
-      title="Financial information disclaimer"
+      title="Disclosures and Disclaimer"
       description="Canadian Wealth Lab provides education and decision support, not individualized professional advice."
       sections={[
+        {
+          title: "Editorial and commercial disclosures",
+          paragraphs: [
+            "Canadian Wealth Lab does not currently publish paid product endorsements or claim that a financial product is best for every reader. If advertising, sponsorship, affiliate compensation, or a material commercial relationship is introduced, it will be disclosed clearly and will not control editorial conclusions.",
+          ],
+        },
         {
           title: "Not personalized advice",
           paragraphs: [

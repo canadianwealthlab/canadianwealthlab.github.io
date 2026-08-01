@@ -90,7 +90,7 @@ export default async function CalculatorPage({
               personalized financial advice.
             </p>
             <span>
-              <Link href="/about/methodology">
+              <Link href="/about/research-methodology">
                 Review our calculator methodology <ArrowRight size={14} />
               </Link>
               <Link href={`/${calculator.cluster}`}>

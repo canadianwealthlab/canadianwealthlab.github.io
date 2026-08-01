@@ -23,7 +23,11 @@ function formatDate(value: string) {
 
 export function ArticlePage({ article }: { article: Article }) {
   const cluster = getCluster(article.cluster);
-  if (!cluster) return null;
+  const section = cluster || {
+    slug: article.cluster,
+    name: article.cluster === "perspective" ? "Perspective" : "Start Here",
+    calculatorSlugs: [] as string[],
+  };
 
   const articlePath = getArticleUrl(article);
   const articleUrl = absoluteUrl(articlePath);
@@ -34,7 +38,7 @@ export function ArticlePage({ article }: { article: Article }) {
     )
     .slice(0, 2);
   const relatedCalculators = calculators.filter((calculator) =>
-    cluster.calculatorSlugs.includes(calculator.slug),
+    section.calculatorSlugs.includes(calculator.slug),
   );
 
   return (
@@ -58,8 +62,8 @@ export function ArticlePage({ article }: { article: Article }) {
             url: absoluteUrl("/"),
           },
           citation: article.sources.map((source) => source.url),
-          about: cluster.name,
-          isPartOf: absoluteUrl(`/${cluster.slug}`),
+          about: section.name,
+          isPartOf: absoluteUrl(`/${section.slug}`),
           mainEntityOfPage: articleUrl,
         }}
       />
@@ -90,8 +94,8 @@ export function ArticlePage({ article }: { article: Article }) {
             {
               "@type": "ListItem",
               position: 2,
-              name: cluster.name,
-              item: absoluteUrl(`/${cluster.slug}`),
+              name: section.name,
+              item: absoluteUrl(`/${section.slug}`),
             },
             {
               "@type": "ListItem",
@@ -107,14 +111,16 @@ export function ArticlePage({ article }: { article: Article }) {
         <nav className="breadcrumb" aria-label="Breadcrumb">
           <Link href="/">Home</Link>
           <span>/</span>
-          <Link href={`/${cluster.slug}`}>{cluster.name}</Link>
+          <Link href={`/${section.slug}`}>{section.name}</Link>
           <span>/</span>
           <span aria-current="page">{article.title}</span>
         </nav>
 
         <header className="article-header">
           <div className="article-meta">
-            <span>{cluster.name}</span>
+            <span className={`content-type content-type-${article.contentType.toLowerCase().replaceAll(" ", "-")}`}>
+              {article.contentType}
+            </span>
             <span>{article.readingTime}</span>
           </div>
           <h1>{article.title}</h1>
@@ -134,10 +140,15 @@ export function ArticlePage({ article }: { article: Article }) {
           <p>
             Reviewed against primary Canadian sources on{" "}
             {formatDate(article.reviewedDate)}. See our{" "}
-            <Link href="/about/editorial-policy">editorial policy</Link> and{" "}
-            <Link href="/about/methodology">calculator methodology</Link>.
+            <Link href="/about/editorial-standards">Editorial Standards</Link> and{" "}
+            <Link href="/about/research-methodology">Research Methodology</Link>.
           </p>
         </div>
+
+        <aside className="article-audience">
+          <strong>Who this is for</strong>
+          <p>{article.whoFor}</p>
+        </aside>
 
         <div className="article-layout">
           <aside className="article-toc" aria-label="On this page">
@@ -206,7 +217,7 @@ export function ArticlePage({ article }: { article: Article }) {
               ))}
               {relatedArticles.map((related) => (
                 <Link href={getArticleUrl(related)} key={related.slug}>
-                  <small>{cluster.name} guide</small>
+                  <small>{related.contentType}</small>
                   <strong>{related.title}</strong>
                   <span>
                     Read the guide <ArrowRight size={15} />

@@ -566,7 +566,7 @@ export function GuidedExperience({
           <button className="button button-primary" onClick={restart} type="button">
             Explore another goal <ArrowRight size={17} />
           </button>
-          <Link className="button button-secondary" href="/articles">
+          <Link className="button button-secondary" href="/guides">
             Browse all guides <ArrowUpRight size={17} />
           </Link>
         </div>
