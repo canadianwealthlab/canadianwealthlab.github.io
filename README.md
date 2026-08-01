@@ -20,11 +20,17 @@ Requires Node.js 22.13 or later.
 ```bash
 npm ci
 npm run dev
-npm run build
-npm test
+npm run validate:quick
+npm run validate:full
 ```
 
-The static site is written to `dist/client`.
+Use `validate:quick` while changing isolated calculation or guided-decision
+logic. It runs cached linting and focused unit tests without rebuilding the
+site. Use `validate:full` before deployment and for changes to routes,
+components, content, styling, metadata, or build configuration.
+
+The full validation command creates the static site in `dist/client` and the
+Sites-compatible server output in `dist/server`.
 
 ## Environment
 
