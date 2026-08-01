@@ -193,8 +193,8 @@ export default async function GuidedJourneyPage({
             </p>
           </div>
           <div className="guided-static-outcome-grid">
-            {content.outcomes.map((outcome) => (
-              <article key={outcome.signal}>
+            {content.outcomes.map((outcome, index) => (
+              <article key={`${outcome.signal}-${index}`}>
                 <span>{outcome.signal}</span>
                 <h3>{outcome.headline}</h3>
                 <p>{outcome.summary}</p>
