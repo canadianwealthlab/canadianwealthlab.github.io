@@ -5,6 +5,7 @@ import {
   ArrowLeft,
   ArrowRight,
   ArrowUpRight,
+  AlertTriangle,
   BookOpen,
   Calculator,
   Check,
@@ -14,14 +15,17 @@ import {
   Landmark,
   LockKeyhole,
   MessageCircle,
+  Plus,
   RefreshCcw,
   Scale,
   ShieldCheck,
+  Trash2,
 } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { trackGuidedEvent } from "@/lib/guided/analytics";
 import {
   buildGuidedResult,
+  validateGuidedStep,
   visibleStepIds,
 } from "@/lib/guided/engine.mjs";
 import { getJourney } from "@/lib/guided/journeys";
@@ -29,13 +33,16 @@ import { getGuidedRecommendations } from "@/lib/guided/recommendations";
 import { getGuidedSources } from "@/lib/guided/sources";
 import type {
   GuidedResponses,
+  GuidedResponse,
   GuidedResult,
   GuidedSourceType,
   GuidedStep,
   JourneyId,
+  DebtItem,
 } from "@/lib/guided/types";
 
 type Phase = "questions" | "results";
+const sessionKey = "cwl-guided-session-v2";
 
 const sourceGroups: Array<{
   type: GuidedSourceType;
@@ -73,9 +80,51 @@ function GuidedStepField({
   onChange,
 }: {
   step: GuidedStep;
-  value: string | number | undefined;
-  onChange: (value: string | number | undefined) => void;
+  value: GuidedResponse | undefined;
+  onChange: (value: GuidedResponse | undefined) => void;
 }) {
+  if (step.type === "checkpoint") {
+    return (
+      <div className="guided-checkpoint">
+        <BookOpen size={22} aria-hidden="true" />
+        <ul>{step.body.map((item) => <li key={item}>{item}</li>)}</ul>
+        {step.articleHref ? <Link href={step.articleHref}>{step.articleLabel} <ArrowUpRight size={15} /></Link> : null}
+      </div>
+    );
+  }
+
+  if (step.type === "debt-list") {
+    const debts = Array.isArray(value) ? value as DebtItem[] : [];
+    const update = (index: number, field: keyof DebtItem, nextValue: string | number) => {
+      onChange(debts.map((debt, itemIndex) => itemIndex === index ? { ...debt, [field]: nextValue } : debt));
+    };
+    const addDebt = () => {
+      if (debts.length >= step.maxItems) return;
+      onChange([...debts, { id: crypto.randomUUID(), type: "", balance: 0, interestRate: 0, minimumPayment: 0, security: "unsecured", rateType: "variable", status: "current" }]);
+    };
+    return (
+      <div className="guided-debt-list">
+        {debts.map((debt, index) => (
+          <fieldset key={debt.id} className="guided-debt-card">
+            <legend>Debt {index + 1}</legend>
+            <label>Name or type<input value={debt.type} onChange={(event) => update(index, "type", event.target.value)} placeholder="Credit card" autoComplete="off" /></label>
+            <div className="guided-debt-fields">
+              <label>Balance ($)<input inputMode="decimal" min="0" type="number" value={debt.balance || ""} onChange={(event) => update(index, "balance", Number(event.target.value))} /></label>
+              <label>Annual rate (%)<input inputMode="decimal" min="0" max="60" step="0.01" type="number" value={debt.interestRate || ""} onChange={(event) => update(index, "interestRate", Number(event.target.value))} /></label>
+              <label>Required monthly payment ($)<input inputMode="decimal" min="0" type="number" value={debt.minimumPayment || ""} onChange={(event) => update(index, "minimumPayment", Number(event.target.value))} /></label>
+            </div>
+            <div className="guided-debt-selects">
+              <label>Security<select value={debt.security} onChange={(event) => update(index, "security", event.target.value)}><option value="unsecured">Unsecured</option><option value="secured">Secured</option></select></label>
+              <label>Rate type<select value={debt.rateType} onChange={(event) => update(index, "rateType", event.target.value)}><option value="variable">Variable</option><option value="fixed">Fixed</option><option value="promotional">Promotional</option></select></label>
+              <label>Status<select value={debt.status} onChange={(event) => update(index, "status", event.target.value)}><option value="current">Current</option><option value="past-due">Past due</option><option value="collections">Collections or legal</option></select></label>
+            </div>
+            <button className="guided-remove-debt" type="button" onClick={() => onChange(debts.filter((_, itemIndex) => itemIndex !== index))}><Trash2 size={15} /> Remove</button>
+          </fieldset>
+        ))}
+        <button className="button button-secondary" type="button" onClick={addDebt} disabled={debts.length >= step.maxItems}><Plus size={16} /> Add debt</button>
+      </div>
+    );
+  }
   if (step.type === "choice" || step.type === "quiz") {
     return (
       <fieldset className="guided-options">
@@ -163,6 +212,12 @@ function GuidedStepField({
         />
         <small>CAD</small>
       </span>
+      {step.allowUnknown ? (
+        <button className={value === "unknown" ? "guided-unknown is-selected" : "guided-unknown"} type="button" onClick={() => onChange(value === "unknown" ? undefined : "unknown")}>
+          {value === "unknown" ? <Check size={15} /> : <CircleHelp size={15} />} I do not know this yet
+        </button>
+      ) : null}
+      {step.allowUnknown && step.unknownHelp && value === "unknown" ? <small>{step.unknownHelp}</small> : null}
     </div>
   );
 }
@@ -179,6 +234,9 @@ export function GuidedExperience({
   const [responses, setResponses] = useState<GuidedResponses>({});
   const [stepIndex, setStepIndex] = useState(0);
   const [error, setError] = useState("");
+  const [editingStepId, setEditingStepId] = useState<string | null>(null);
+  const [savedShared, setSavedShared] = useState<GuidedResponses>({});
+  const [reusePrompt, setReusePrompt] = useState(false);
   const resultRef = useRef<HTMLDivElement>(null);
   const completedRef = useRef(false);
 
@@ -209,7 +267,33 @@ export function GuidedExperience({
   useEffect(() => {
     trackGuidedEvent("guided_goal_selected", { journey_id: journeyId });
     window.scrollTo({ top: 0, behavior: "smooth" });
+    const initialize = window.setTimeout(() => {
+      try {
+        const stored = JSON.parse(sessionStorage.getItem(sessionKey) || "{}") as { shared?: GuidedResponses; journeys?: Partial<Record<JourneyId, GuidedResponses>> };
+        const prior = stored.journeys?.[journeyId];
+        if (prior) setResponses(prior);
+        if (stored.shared && Object.keys(stored.shared).length) {
+          setSavedShared(stored.shared);
+          setReusePrompt(!prior);
+        }
+      } catch {
+        sessionStorage.removeItem(sessionKey);
+      }
+    }, 0);
+    return () => window.clearTimeout(initialize);
   }, [journeyId]);
+
+  useEffect(() => {
+    if (!journey) return;
+    try {
+      const stored = JSON.parse(sessionStorage.getItem(sessionKey) || "{}") as { shared?: GuidedResponses; journeys?: Partial<Record<JourneyId, GuidedResponses>> };
+      const shared = { ...(stored.shared || {}) };
+      for (const step of journey.steps) if (step.shared && responses[step.id] !== undefined) shared[step.id] = responses[step.id];
+      sessionStorage.setItem(sessionKey, JSON.stringify({ shared, journeys: { ...(stored.journeys || {}), [journeyId]: responses } }));
+    } catch {
+      // The experience remains usable if browser storage is unavailable.
+    }
+  }, [journey, journeyId, responses]);
 
   useEffect(() => {
     const recordAbandonment = () => {
@@ -227,7 +311,7 @@ export function GuidedExperience({
     }
   }, [phase]);
 
-  function changeResponse(value: string | number | undefined) {
+  function changeResponse(value: GuidedResponse | undefined) {
     if (!activeStep) return;
     setError("");
     setResponses((current) => {
@@ -248,8 +332,9 @@ export function GuidedExperience({
   function continueJourney() {
     if (!journey || !activeStep) return;
     const value = responses[activeStep.id];
-    if (value === undefined || value === "") {
-      setError("Choose or enter a response before continuing.");
+    const validationError = validateGuidedStep(activeStep, value, responses);
+    if (validationError) {
+      setError(validationError);
       return;
     }
 
@@ -257,6 +342,13 @@ export function GuidedExperience({
       journey_id: journey.id,
       step_id: activeStep.id,
     });
+
+    if (editingStepId) {
+      setEditingStepId(null);
+      completedRef.current = true;
+      setPhase("results");
+      return;
+    }
 
     if (stepIndex < steps.length - 1) {
       setStepIndex((current) => current + 1);
@@ -295,6 +387,20 @@ export function GuidedExperience({
     exitJourney(true);
   }
 
+  function reuseSharedAnswers() {
+    setResponses((current) => ({ ...savedShared, ...current }));
+    setReusePrompt(false);
+  }
+
+  function editAssumption(stepId: string) {
+    const nextIndex = steps.findIndex((step) => step.id === stepId);
+    if (nextIndex < 0) return;
+    setEditingStepId(stepId);
+    setStepIndex(nextIndex);
+    setPhase("questions");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
   if (phase === "questions" && journey && activeStep) {
     return (
       <main className="guided-question-page">
@@ -311,10 +417,10 @@ export function GuidedExperience({
           <div className="guided-progress-wrap">
             <div className="guided-progress-meta">
               <span>{journey.shortTitle}</span>
-              <span>Question {stepIndex + 1} of {steps.length}</span>
+              <span>Step {stepIndex + 1} · path adapts as you answer</span>
             </div>
             <div
-              aria-label={`Question ${stepIndex + 1} of ${steps.length}`}
+              aria-label={`Step ${stepIndex + 1} in an adaptive path`}
               aria-valuemax={steps.length}
               aria-valuemin={1}
               aria-valuenow={stepIndex + 1}
@@ -325,9 +431,17 @@ export function GuidedExperience({
             </div>
           </div>
 
+          {reusePrompt ? (
+            <aside className="guided-reuse" aria-label="Reuse earlier answers">
+              <div><strong>Reuse shared answers from this tab?</strong><p>Only overlapping context such as province, household, income stability, or emergency savings will be copied.</p></div>
+              <button className="button button-secondary" type="button" onClick={reuseSharedAnswers}>Reuse answers</button>
+              <button type="button" onClick={() => setReusePrompt(false)}>Not now</button>
+            </aside>
+          ) : null}
+
           <section className="guided-question-card" aria-labelledby="guided-question-title">
             <span className="guided-step-label">
-              {activeStep.type === "quiz" ? "QUICK CHECK" : "YOUR CONTEXT"}
+              {activeStep.type === "checkpoint" ? "EDUCATION CHECKPOINT" : activeStep.type === "quiz" ? "QUICK CHECK" : "YOUR CONTEXT"}
             </span>
             <h1 id="guided-question-title">{activeStep.question}</h1>
             <p className="guided-question-helper">
@@ -350,14 +464,13 @@ export function GuidedExperience({
                 <ArrowLeft size={17} /> Back
               </button>
               <button className="button button-primary" onClick={continueJourney} type="button">
-                {stepIndex === steps.length - 1 ? "See my decision map" : "Continue"}
+                {editingStepId ? "Update result" : stepIndex === steps.length - 1 ? "See my decision map" : "Continue"}
                 <ArrowRight size={17} />
               </button>
             </div>
           </section>
           <p className="guided-browser-note">
-            <LockKeyhole size={15} /> Responses are processed only in this tab
-            and are not sent to analytics.
+            <LockKeyhole size={15} /> Responses stay in session storage for this tab so another path can reuse shared context. Values are never sent to analytics and clear when the tab closes.
           </p>
         </div>
       </main>
@@ -397,10 +510,30 @@ export function GuidedExperience({
               mortgage, or legal advice.
             </p>
           </div>
+          {result.urgentSupport ? (
+            <div className="guided-urgent" role="alert">
+              <AlertTriangle size={22} />
+              <div><strong>This result calls for stabilization, not just optimization.</strong><p>Protect essentials, contact creditors, and use the qualified Canadian support resources below. Do not pay an unverified company upfront for a promised quick fix.</p></div>
+            </div>
+          ) : null}
         </div>
       </section>
 
       <div className="container guided-results-body">
+        <section className="guided-heard" aria-labelledby="guided-heard-title">
+          <div className="guided-section-heading"><span className="kicker">WHAT WE HEARD</span><h2 id="guided-heard-title">The inputs shaping this result</h2></div>
+          <ul>{result.heard.map((item) => <li key={item}><Check size={15} /> {item}</li>)}</ul>
+        </section>
+
+        {result.spectrum ? (
+          <section className="guided-spectrum" aria-labelledby="guided-spectrum-title">
+            <div className="guided-section-heading"><span className="kicker">DECISION SPECTRUM</span><h2 id="guided-spectrum-title">Where your stated priorities point</h2></div>
+            <div className="guided-spectrum-labels"><span>{result.spectrum.left}</span><span>{result.spectrum.right}</span></div>
+            <div className="guided-spectrum-track"><span style={{ left: `${result.spectrum.position}%` }} /></div>
+            <p>{result.spectrum.label}</p>
+          </section>
+        ) : null}
+
         <section aria-labelledby="guided-snapshot-title">
           <div className="guided-section-heading">
             <span className="kicker">SCENARIO SNAPSHOT</span>
@@ -416,6 +549,19 @@ export function GuidedExperience({
             ))}
           </div>
         </section>
+
+        {result.scenarios.length ? (
+          <section aria-labelledby="guided-scenarios-title">
+            <div className="guided-section-heading"><span className="kicker">SCENARIO RANGE</span><h2 id="guided-scenarios-title">Compare outcomes, not a single forecast</h2></div>
+            <div className="guided-scenario-wrap" tabIndex={0} aria-label="Scrollable scenario comparison">
+              <table className="guided-scenario-table"><thead><tr><th>Scenario</th>{result.scenarioColumns.map((column) => <th key={column}>{column}</th>)}</tr></thead><tbody>{result.scenarios.map((scenario) => <tr key={scenario.label}><th>{scenario.label}{scenario.note ? <small>{scenario.note}</small> : null}</th>{scenario.values.map((value, index) => <td key={`${scenario.label}-${result.scenarioColumns[index]}`}>{value}</td>)}</tr>)}</tbody></table>
+            </div>
+          </section>
+        ) : null}
+
+        {result.timeline?.length ? (
+          <section className="guided-timeline" aria-labelledby="guided-timeline-title"><div className="guided-section-heading"><span className="kicker">MILESTONES</span><h2 id="guided-timeline-title">Illustrative payoff sequence</h2></div><ol>{result.timeline.map((item) => <li key={`${item.label}-${item.value}`}><span>{item.label}</span><strong>{item.value}</strong><p>{item.detail}</p></li>)}</ol></section>
+        ) : null}
 
         <section className="guided-result-grid" aria-labelledby="guided-concepts-title">
           <div>
@@ -456,6 +602,16 @@ export function GuidedExperience({
           <ol>
             {result.nextSteps.map((step) => <li key={step}>{step}</li>)}
           </ol>
+        </section>
+
+        <section className="guided-detail-grid">
+          <div><div className="guided-section-heading"><span className="kicker">WHAT COULD CHANGE THIS</span><h2>Factors outside the model</h2></div><ul>{result.alternativeFactors.map((item) => <li key={item}>{item}</li>)}</ul></div>
+          <div><div className="guided-section-heading"><span className="kicker">VERIFY NEXT</span><h2>Missing or professional inputs</h2></div>{result.missingInformation.length ? <ul>{result.missingInformation.map((item) => <li key={item}>{item}</li>)}</ul> : <p>No user-entered field was marked unknown. External verification still matters.</p>}{result.professionalAdvice.length ? <ul>{result.professionalAdvice.map((item) => <li key={item}>{item}</li>)}</ul> : null}</div>
+        </section>
+
+        <section className="guided-revise" aria-labelledby="guided-revise-title">
+          <div className="guided-section-heading"><span className="kicker">TEST ANOTHER ASSUMPTION</span><h2 id="guided-revise-title">Change one input and update this result</h2></div>
+          <div>{result.reviseStepIds.map((stepId) => { const step = journey.steps.find((item) => item.id === stepId); return step ? <button type="button" key={stepId} onClick={() => editAssumption(stepId)}>{step.question}<ArrowRight size={15} /></button> : null; })}</div>
         </section>
 
         <section className="guided-resources" aria-labelledby="guided-resources-title">
@@ -537,6 +693,7 @@ export function GuidedExperience({
                             <small>{source.publisher}</small>
                             <strong>{source.title}</strong>
                             <p>{source.context}</p>
+                            <small>{source.jurisdiction} · Reviewed {source.reviewed}{source.effectiveDate ? ` · Effective ${source.effectiveDate}` : ""}</small>
                           </span>
                           <ExternalLink size={16} />
                         </a>

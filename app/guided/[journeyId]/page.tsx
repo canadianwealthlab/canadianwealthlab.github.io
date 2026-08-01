@@ -171,6 +171,12 @@ export default async function GuidedJourneyPage({
                   {step.type === "money" && (
                     <small>Input type: Canadian-dollar planning amount</small>
                   )}
+                  {step.type === "checkpoint" && (
+                    <ul>{step.body.map((item) => <li key={item}>{item}</li>)}</ul>
+                  )}
+                  {step.type === "debt-list" && (
+                    <small>Input type: up to {step.maxItems} debts with balance, rate, required payment, security, rate type, and status</small>
+                  )}
                 </div>
               </article>
             ))}
@@ -285,6 +291,7 @@ export default async function GuidedJourneyPage({
                               <small>{source.publisher}</small>
                               <strong>{source.title}</strong>
                               <p>{source.context}</p>
+                              <small>{source.jurisdiction} · Reviewed {source.reviewed}{source.effectiveDate ? ` · Effective ${source.effectiveDate}` : ""}</small>
                             </span>
                             <ExternalLink size={16} />
                           </a>

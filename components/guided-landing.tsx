@@ -23,7 +23,7 @@ export function GuidedLanding() {
             </p>
             <div className="guided-trust-row">
               <span><LockKeyhole size={16} /> No account</span>
-              <span><ShieldCheck size={16} /> No answers saved</span>
+              <span><ShieldCheck size={16} /> Tab-local only</span>
               <span><Compass size={16} /> Education, not advice</span>
             </div>
           </div>
@@ -46,8 +46,8 @@ export function GuidedLanding() {
               <h2>What are you trying to work through?</h2>
             </div>
             <p>
-              No free-text answers are requested. Your responses remain only in
-              this browser tab and disappear when you reload or leave.
+              Your responses stay only in this browser tab and can be reused
+              across paths. They clear when the tab closes and are never sent to analytics.
             </p>
           </div>
           <div className="guided-journey-grid">

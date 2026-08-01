@@ -2,6 +2,7 @@
 
 import { lazy, Suspense, useEffect, useState } from "react";
 import { trackGuidedEvent } from "@/lib/guided/analytics";
+import { guidedJourneys } from "@/lib/guided/journeys";
 import type { JourneyId } from "@/lib/guided/types";
 
 const GuidedExperience = lazy(() =>
@@ -10,11 +11,7 @@ const GuidedExperience = lazy(() =>
   })),
 );
 
-const journeyIds = new Set<JourneyId>([
-  "next-dollar",
-  "registered-accounts",
-  "home-readiness",
-]);
+const journeyIds = new Set<JourneyId>(guidedJourneys.map((journey) => journey.id));
 
 function getRequestedJourney() {
   const value = new URLSearchParams(window.location.search).get("start");

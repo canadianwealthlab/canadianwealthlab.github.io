@@ -7,7 +7,7 @@ import { absoluteUrl } from "@/lib/seo/site";
 export const metadata: Metadata = {
   title: "Get Guided through a Canadian money decision",
   description:
-    "Answer a few focused questions and get an educational decision map for money priorities, registered accounts, or home-buying readiness.",
+    "Use six private, adaptive paths for Canadian money priorities, retirement, mortgages, registered accounts, home affordability, and debt payoff.",
   alternates: { canonical: "/guided" },
 };
 

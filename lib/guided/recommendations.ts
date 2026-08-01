@@ -52,6 +52,12 @@ export const guidedArticleRecommendations: GuidedRecommendation[] = [
     title: "Rent vs Buy: How Should I Decide?",
     href: "/housing/rent-vs-buy",
   },
+  { slug: "how-much-to-retire", title: "How Much Money Do I Need to Retire?", href: "/retirement/how-much-to-retire" },
+  { slug: "retirement-spending-withdrawal-rates", title: "Retirement Spending and Withdrawal Rates", href: "/retirement/retirement-spending-withdrawal-rates" },
+  { slug: "cpp-guide", title: "CPP Guide", href: "/retirement/cpp-guide" },
+  { slug: "choosing-managing-mortgage", title: "Choosing and Managing a Mortgage", href: "/housing/choosing-managing-mortgage" },
+  { slug: "debt-or-invest", title: "Pay Down Debt or Invest?", href: "/money-management/debt-or-invest" },
+  { slug: "personal-money-system", title: "Build a Personal Money System", href: "/money-management/personal-money-system" },
 ];
 
 export const guidedCalculatorRecommendations: GuidedRecommendation[] = [
@@ -65,6 +71,8 @@ export const guidedCalculatorRecommendations: GuidedRecommendation[] = [
     title: "Rent vs Buy Calculator",
     href: "/calculators/rent-vs-buy",
   },
+  { slug: "mortgage-prepayment", title: "Mortgage Prepayment Calculator", href: "/calculators/mortgage-prepayment" },
+  { slug: "fire", title: "Retirement and FIRE Calculator", href: "/calculators/fire" },
 ];
 
 export const guidedJourneyRecommendations: Record<
@@ -79,6 +87,14 @@ export const guidedJourneyRecommendations: Record<
     ],
     calculatorSlugs: [],
   },
+  "retirement-readiness": {
+    articleSlugs: ["how-much-to-retire", "retirement-spending-withdrawal-rates", "cpp-guide"],
+    calculatorSlugs: ["fire"],
+  },
+  "mortgage-vs-invest": {
+    articleSlugs: ["pay-off-mortgage-or-invest", "choosing-managing-mortgage", "building-investment-plan"],
+    calculatorSlugs: ["mortgage-prepayment"],
+  },
   "registered-accounts": {
     articleSlugs: ["tfsa-guide", "rrsp-guide", "tfsa-rrsp-fhsa"],
     calculatorSlugs: ["tfsa-vs-rrsp"],
@@ -90,6 +106,10 @@ export const guidedJourneyRecommendations: Record<
       "rent-vs-buy",
     ],
     calculatorSlugs: ["rent-vs-buy"],
+  },
+  "debt-plan": {
+    articleSlugs: ["debt-or-invest", "emergency-fund-canada", "personal-money-system"],
+    calculatorSlugs: [],
   },
 };
 

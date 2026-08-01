@@ -25,7 +25,8 @@ export default function PrivacyPage() {
         {
           title: "Get Guided responses",
           paragraphs: [
-            "Responses in Get Guided are processed in memory in your browser tab. They are not transmitted, stored, or linked to an account, and they disappear when you reload, restart, or leave the experience. The experience does not request names, email addresses, account numbers, exact income sources, or free-text financial details.",
+            "Responses in Get Guided are processed in your browser and kept in session storage for the current tab. This permits back navigation, revising assumptions, and optional reuse of shared context across guided paths. Responses are not transmitted or linked to an account. They survive a reload in the same tab and are cleared when the tab closes. Starting over clears the current path, while shared context may remain available in that tab.",
+            "Do not enter names, email addresses, account numbers, creditor names, or other identifying details. The debt list requests a generic debt name or type only, such as credit card or auto loan.",
             "Analytics events may record that a guided journey started, a non-sensitive step was completed, results were viewed, or a recommended resource was opened. Event data can include an internal journey, step, or content-type label. It never includes response values or the text of a response.",
           ],
         },
@@ -45,7 +46,7 @@ export default function PrivacyPage() {
         {
           title: "Policy changes",
           paragraphs: [
-            "This policy will be updated before Canadian Wealth Lab introduces accounts, saved calculations or guided results, active message or email collection, or other features that materially change personal-information handling.",
+            "This policy will be updated before Canadian Wealth Lab introduces accounts, server-saved calculations or guided results, active message or email collection, or other features that materially change personal-information handling.",
           ],
         },
       ]}

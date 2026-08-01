@@ -126,11 +126,14 @@ test("renders the guided experience and preserves the original discovery paths",
   const guidedHtml = await guidedResponse.text();
   assert.match(guidedHtml, /A clearer path through your next money decision/);
   assert.match(guidedHtml, /What should my next dollar do/);
-  assert.match(guidedHtml, /Which registered account should I learn about first/);
-  assert.match(guidedHtml, /No answers saved/);
+  assert.match(guidedHtml, /How should I allocate between TFSA, RRSP, and FHSA/);
+  assert.match(guidedHtml, /Tab-local only/);
   assert.match(guidedHtml, /href="\/guided\/next-dollar"/);
   assert.match(guidedHtml, /href="\/guided\/registered-accounts"/);
   assert.match(guidedHtml, /href="\/guided\/home-readiness"/);
+  assert.match(guidedHtml, /href="\/guided\/retirement-readiness"/);
+  assert.match(guidedHtml, /href="\/guided\/mortgage-vs-invest"/);
+  assert.match(guidedHtml, /href="\/guided\/debt-plan"/);
   assert.doesNotMatch(guidedHtml, /guided-experience-[A-Za-z0-9_-]+\.js/);
   assert.match(guidedHtml, /googletagmanager\.com\/gtag\/js\?id=G-PDECYVLZLB/);
 
@@ -152,10 +155,28 @@ test("renders every guided framework as crawlable HTML without interaction", asy
       ],
     ],
     [
+      "/guided/retirement-readiness/",
+      [
+        "What does the household spend in a typical month today?",
+        "A planning gap to work on|Near the middle range|Cushion in the middle scenario",
+        "CPP retirement pension",
+        "Retirement and FIRE Calculator",
+      ],
+    ],
+    [
+      "/guided/mortgage-vs-invest/",
+      [
+        "How much money are you deciding about?",
+        "A split deserves consideration",
+        "Paying off your mortgage faster",
+        "Mortgage Prepayment Calculator",
+      ],
+    ],
+    [
       "/guided/registered-accounts/",
       [
         "What is this money mainly for?",
-        "Start by verifying FHSA eligibility",
+        "Verify FHSA eligibility and room first",
         "Tax-Free Savings Account",
         "TFSA vs RRSP Calculator",
       ],
@@ -163,10 +184,19 @@ test("renders every guided framework as crawlable HTML without interaction", asy
     [
       "/guided/home-readiness/",
       [
-        "What purchase price are you using for planning?",
-        "Ready for a detailed stress test",
+        "What purchase price are you testing?",
+        "Build the plan before relying on a target price",
         "How much you need for a down payment",
         "Rent vs Buy Calculator",
+      ],
+    ],
+    [
+      "/guided/debt-plan/",
+      [
+        "Can you currently cover essential costs and all required debt payments?",
+        "A structured payoff plan is workable",
+        "What is a Licensed Insolvency Trustee?",
+        "Pay Down Debt or Invest?",
       ],
     ],
   ];
@@ -323,6 +353,7 @@ test("documents private guided processing and limited analytics", async () => {
   const response = await render("/privacy/");
   assert.equal(response.status, 200);
   const html = await response.text();
-  assert.match(html, /Responses in Get Guided are processed in memory in your browser tab/);
+  assert.match(html, /kept in session storage for the current tab/);
+  assert.match(html, /cleared when the tab closes/);
   assert.match(html, /never includes response values/);
 });
